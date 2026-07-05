@@ -7,6 +7,9 @@ export interface Invoice {
   date: string;
   dueDate: string;
   amount: number;
+  currency: string;
+  displayAmount: number;
+  displayCurrency: string;
   status: InvoiceStatus;
 }
 
@@ -49,6 +52,9 @@ export interface Expense {
   category: ExpenseCategory;
   date: string;
   amount: number;
+  currency: string;
+  displayAmount: number;
+  displayCurrency: string;
   status: ExpenseStatus;
 }
 

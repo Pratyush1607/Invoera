@@ -11,6 +11,7 @@ type SpendView = "Monthly" | "Annual";
 interface SpendChartProps {
   monthlyData: { key: string; label: string; amount: number }[];
   annualData: { key: string; label: string; amount: number }[];
+  displayCurrency: string;
 }
 
 interface TooltipPayloadEntry {
@@ -21,21 +22,23 @@ function SpendTooltip({
   active,
   payload,
   label,
+  displayCurrency,
 }: {
   active?: boolean;
   payload?: TooltipPayloadEntry[];
   label?: string;
+  displayCurrency: string;
 }) {
   if (!active || !payload?.length) return null;
   return (
     <div className="rounded-xl bg-gray-900 px-3 py-2 text-xs text-white shadow-lg ring-1 ring-white/10">
-      <p className="font-semibold">{formatCurrency(payload[0].value)}</p>
+      <p className="font-semibold">{formatCurrency(payload[0].value, displayCurrency)}</p>
       <p className="text-gray-300">{label}</p>
     </div>
   );
 }
 
-export function SpendChart({ monthlyData, annualData }: SpendChartProps) {
+export function SpendChart({ monthlyData, annualData, displayCurrency }: SpendChartProps) {
   const [view, setView] = useState<SpendView>("Monthly");
   const { theme } = useTheme();
 
@@ -52,7 +55,8 @@ export function SpendChart({ monthlyData, annualData }: SpendChartProps) {
         <div>
           <h3 className="font-bold text-gray-900 dark:text-gray-100">Spending</h3>
           <p className="text-sm text-gray-400 dark:text-gray-500">
-            {formatCurrency(total)} over {data.length} {view === "Monthly" ? "months" : "years"}
+            {formatCurrency(total, displayCurrency)} over {data.length}{" "}
+            {view === "Monthly" ? "months" : "years"}
           </p>
         </div>
         <div className="flex gap-1 rounded-full bg-gray-100 p-1 dark:bg-gray-800">
@@ -88,9 +92,12 @@ export function SpendChart({ monthlyData, annualData }: SpendChartProps) {
               tickLine={false}
               tick={{ fill: tickColor, fontSize: 12 }}
               width={40}
-              tickFormatter={(value: number) => formatCompactCurrency(value)}
+              tickFormatter={(value: number) => formatCompactCurrency(value, displayCurrency)}
             />
-            <Tooltip content={<SpendTooltip />} cursor={{ fill: cursorFill }} />
+            <Tooltip
+              content={<SpendTooltip displayCurrency={displayCurrency} />}
+              cursor={{ fill: cursorFill }}
+            />
             <Bar dataKey="amount" fill="#0d9488" radius={[6, 6, 0, 0]} maxBarSize={24} />
           </BarChart>
         </ResponsiveContainer>

@@ -3,9 +3,14 @@ import { ProfitLossChart } from "@/components/dashboard/ProfitLossChart";
 import { getMonthlyProfitLoss, getOverallInvoiceTotals, getTotalExpenses } from "@/lib/calculations";
 import { getClients } from "@/lib/data/clients";
 import { getExpenses } from "@/lib/data/expenses";
+import { getDisplayContext } from "@/lib/currency";
 
 export default async function DashboardPage() {
-  const [clients, expenses] = await Promise.all([getClients(), getExpenses()]);
+  const [clients, expenses, { displayCurrency }] = await Promise.all([
+    getClients(),
+    getExpenses(),
+    getDisplayContext(),
+  ]);
 
   const totals = getOverallInvoiceTotals(clients);
   const invoiceCount = clients.reduce((sum, client) => sum + client.invoices.length, 0);
@@ -21,9 +26,14 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      <SummaryCards totals={totals} invoiceCount={invoiceCount} totalSpend={totalSpend} />
+      <SummaryCards
+        totals={totals}
+        invoiceCount={invoiceCount}
+        totalSpend={totalSpend}
+        displayCurrency={displayCurrency}
+      />
 
-      <ProfitLossChart data={profitLossData} />
+      <ProfitLossChart data={profitLossData} displayCurrency={displayCurrency} />
     </div>
   );
 }

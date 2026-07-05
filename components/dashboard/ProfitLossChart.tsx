@@ -8,6 +8,7 @@ import { formatCompactCurrency, formatCurrency } from "@/lib/utils";
 
 interface ProfitLossChartProps {
   data: { key: string; label: string; profit: number }[];
+  displayCurrency: string;
 }
 
 interface TooltipPayloadEntry {
@@ -18,10 +19,12 @@ function ProfitLossTooltip({
   active,
   payload,
   label,
+  displayCurrency,
 }: {
   active?: boolean;
   payload?: TooltipPayloadEntry[];
   label?: string;
+  displayCurrency: string;
 }) {
   if (!active || !payload?.length) return null;
   const value = payload[0].value;
@@ -29,14 +32,14 @@ function ProfitLossTooltip({
     <div className="rounded-xl bg-gray-900 px-3 py-2 text-xs text-white shadow-lg ring-1 ring-white/10">
       <p className="font-semibold">
         {value >= 0 ? "+" : "-"}
-        {formatCurrency(Math.abs(value))}
+        {formatCurrency(Math.abs(value), displayCurrency)}
       </p>
       <p className="text-gray-300">{label}</p>
     </div>
   );
 }
 
-export function ProfitLossChart({ data }: ProfitLossChartProps) {
+export function ProfitLossChart({ data, displayCurrency }: ProfitLossChartProps) {
   const { theme } = useTheme();
   const net = data.reduce((sum, entry) => sum + entry.profit, 0);
 
@@ -48,7 +51,7 @@ export function ProfitLossChart({ data }: ProfitLossChartProps) {
     <Card className="p-5">
       <h3 className="font-bold text-gray-900 dark:text-gray-100">Profit / Loss by Month</h3>
       <p className="text-sm text-gray-400 dark:text-gray-500">
-        Net {formatCurrency(net)} over {data.length} months
+        Net {formatCurrency(net, displayCurrency)} over {data.length} months
       </p>
       <div className="mt-2 flex gap-4 text-xs">
         <span className="flex items-center gap-1.5 text-gray-600 dark:text-gray-300">
@@ -81,10 +84,13 @@ export function ProfitLossChart({ data }: ProfitLossChartProps) {
               tickLine={false}
               tick={{ fill: tickColor, fontSize: 12 }}
               width={40}
-              tickFormatter={(value: number) => formatCompactCurrency(value)}
+              tickFormatter={(value: number) => formatCompactCurrency(value, displayCurrency)}
             />
             <ReferenceLine y={0} stroke={gridStroke} />
-            <Tooltip content={<ProfitLossTooltip />} cursor={{ fill: cursorFill }} />
+            <Tooltip
+              content={<ProfitLossTooltip displayCurrency={displayCurrency} />}
+              cursor={{ fill: cursorFill }}
+            />
             <Bar dataKey="profit" radius={[6, 6, 6, 6]} maxBarSize={24}>
               {data.map((entry) => (
                 <Cell

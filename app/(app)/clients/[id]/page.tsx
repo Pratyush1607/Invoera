@@ -7,6 +7,7 @@ import { InvoiceRatioCard } from "@/components/shared/InvoiceRatioCard";
 import { InvoiceHistoryList } from "@/components/clients/InvoiceHistoryList";
 import { getClientTotals } from "@/lib/calculations";
 import { getClientById } from "@/lib/data/clients";
+import { getDisplayContext } from "@/lib/currency";
 import { formatCurrency } from "@/lib/utils";
 
 export default async function ClientDetailPage({
@@ -19,6 +20,7 @@ export default async function ClientDetailPage({
   if (!client) notFound();
 
   const totals = getClientTotals(client);
+  const { displayCurrency } = await getDisplayContext();
 
   return (
     <div className="flex flex-col gap-6">
@@ -44,22 +46,22 @@ export default async function ClientDetailPage({
       <div className="grid grid-cols-3 gap-4">
         <StatTile
           label="Total Invoice"
-          value={formatCurrency(totals.total)}
+          value={formatCurrency(totals.total, displayCurrency)}
           sublabel={`${client.invoices.length} Invoices`}
         />
         <StatTile
           label="Paid"
-          value={formatCurrency(totals.paid)}
+          value={formatCurrency(totals.paid, displayCurrency)}
           valueClassName="text-teal-600 dark:text-teal-400"
         />
         <StatTile
           label="Unpaid"
-          value={formatCurrency(totals.unpaid)}
+          value={formatCurrency(totals.unpaid, displayCurrency)}
           valueClassName="text-red-600 dark:text-red-400"
         />
       </div>
 
-      <InvoiceRatioCard totals={totals} />
+      <InvoiceRatioCard totals={totals} displayCurrency={displayCurrency} />
 
       <InvoiceHistoryList clientId={client.id} invoices={client.invoices} />
     </div>

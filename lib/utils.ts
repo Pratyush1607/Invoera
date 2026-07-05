@@ -4,21 +4,21 @@ export function cn(...inputs: ClassValue[]) {
   return clsx(inputs);
 }
 
-export function formatCurrency(amount: number): string {
+export function formatCurrency(amount: number, currency: string): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency,
     maximumFractionDigits: 0,
   }).format(amount);
 }
 
-export function formatCompactCurrency(amount: number): string {
-  const sign = amount < 0 ? "-" : "";
-  const abs = Math.abs(amount);
-  if (abs >= 1000) {
-    return `${sign}$${(abs / 1000).toFixed(1).replace(/\.0$/, "")}k`;
-  }
-  return `${sign}$${abs}`;
+export function formatCompactCurrency(amount: number, currency: string): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(amount);
 }
 
 export function formatDate(iso: string): string {

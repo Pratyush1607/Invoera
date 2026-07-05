@@ -11,7 +11,15 @@ import { getClientTotals } from "@/lib/calculations";
 import { HIGH_VALUE_THRESHOLD } from "@/lib/constants";
 import type { Client, ClientTotals } from "@/lib/types";
 
-export function ClientsView({ clients, totals }: { clients: Client[]; totals: ClientTotals }) {
+export function ClientsView({
+  clients,
+  totals,
+  displayCurrency,
+}: {
+  clients: Client[];
+  totals: ClientTotals;
+  displayCurrency: string;
+}) {
   const [filter, setFilter] = useState<ClientFilter>("All");
   const [query, setQuery] = useState("");
 
@@ -54,7 +62,7 @@ export function ClientsView({ clients, totals }: { clients: Client[]; totals: Cl
         />
       </div>
 
-      <RevenueGauge totals={totals} />
+      <RevenueGauge totals={totals} displayCurrency={displayCurrency} />
 
       <ClientFilterPills active={filter} onChange={setFilter} />
 

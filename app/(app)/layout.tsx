@@ -17,12 +17,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("display_name, email")
+    .select("display_name")
     .eq("id", authUser.id)
     .maybeSingle();
 
   const user = {
-    email: profile?.email ?? authUser.email ?? "",
+    email: authUser.email ?? "",
     displayName: profile?.display_name ?? authUser.email ?? "",
   };
 

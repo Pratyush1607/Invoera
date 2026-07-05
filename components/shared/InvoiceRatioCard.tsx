@@ -6,9 +6,11 @@ import type { ClientTotals } from "@/lib/types";
 
 export function InvoiceRatioCard({
   totals,
+  displayCurrency,
   title = "Invoice Ratio",
 }: {
   totals: ClientTotals;
+  displayCurrency: string;
   title?: string;
 }) {
   const segments = [
@@ -24,7 +26,7 @@ export function InvoiceRatioCard({
         <p className="text-sm text-gray-400 dark:text-gray-500">
           Total:{" "}
           <span className="font-semibold text-gray-700 dark:text-gray-200">
-            {formatCurrency(totals.total)}
+            {formatCurrency(totals.total, displayCurrency)}
           </span>
         </p>
       </div>

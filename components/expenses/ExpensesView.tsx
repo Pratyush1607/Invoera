@@ -31,6 +31,7 @@ export function ExpensesView({ expenses }: { expenses: Expense[] }) {
   );
 
   const total = getTotalExpenses(expenses);
+  const displayCurrency = expenses[0]?.displayCurrency ?? "USD";
 
   return (
     <div className="flex flex-col gap-6">
@@ -38,7 +39,7 @@ export function ExpensesView({ expenses }: { expenses: Expense[] }) {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Expenses</h1>
           <p className="text-sm text-gray-400 dark:text-gray-500">
-            {expenses.length} expenses on file · {formatCurrency(total)} total
+            {expenses.length} expenses on file · {formatCurrency(total, displayCurrency)} total
           </p>
         </div>
         <Link href="/expenses/new">
@@ -74,8 +75,13 @@ export function ExpensesView({ expenses }: { expenses: Expense[] }) {
               </div>
               <div className="flex shrink-0 flex-col items-end gap-1.5">
                 <p className="font-semibold text-gray-900 dark:text-gray-100">
-                  {formatCurrency(expense.amount)}
+                  {formatCurrency(expense.amount, expense.currency)}
                 </p>
+                {expense.currency !== expense.displayCurrency && (
+                  <p className="text-xs text-gray-400 dark:text-gray-500">
+                    ≈{formatCurrency(expense.displayAmount, expense.displayCurrency)}
+                  </p>
+                )}
                 <StatusBadge status={expense.status} />
                 {expense.status === "needs review" && (
                   <form action={markExpenseProcessedAction.bind(null, expense.id)}>

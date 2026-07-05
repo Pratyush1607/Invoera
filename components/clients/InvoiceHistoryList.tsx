@@ -42,8 +42,13 @@ export function InvoiceHistoryList({
             </div>
             <div className="flex shrink-0 flex-col items-end gap-1.5">
               <p className="font-semibold text-gray-900 dark:text-gray-100">
-                {formatCurrency(invoice.amount)}
+                {formatCurrency(invoice.amount, invoice.currency)}
               </p>
+              {invoice.currency !== invoice.displayCurrency && (
+                <p className="text-xs text-gray-400 dark:text-gray-500">
+                  ≈{formatCurrency(invoice.displayAmount, invoice.displayCurrency)}
+                </p>
+              )}
               <StatusBadge status={invoice.status} />
               {invoice.status !== "paid" && (
                 <form action={markInvoicePaidAction.bind(null, invoice.id, clientId)}>

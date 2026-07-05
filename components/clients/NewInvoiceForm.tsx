@@ -14,6 +14,7 @@ import {
   type InvoiceFormState,
 } from "@/app/(app)/clients/actions";
 import type { ValidatedInvoiceFields } from "@/lib/gemini/pipeline";
+import { SUPPORTED_CURRENCIES } from "@/lib/constants";
 
 const initialState: InvoiceFormState = {};
 
@@ -73,6 +74,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
       formData.set("date", review.date);
       formData.set("dueDate", review.dueDate);
       formData.set("amount", String(review.amount));
+      formData.set("currency", review.currency);
       formData.set("status", "pending");
       const result = await createInvoiceAction(clientId, {}, formData);
       if (result?.error) setSaveError(result.error);
@@ -144,6 +146,16 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
                 placeholder="1200"
                 className={inputClassName}
               />
+            </label>
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+              Currency
+              <select name="currency" defaultValue="USD" className={inputClassName}>
+                {SUPPORTED_CURRENCIES.map((currency) => (
+                  <option key={currency} value={currency}>
+                    {currency}
+                  </option>
+                ))}
+              </select>
             </label>
             <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
               Status
@@ -259,6 +271,20 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
                 onChange={(event) => setReview({ ...review, amount: Number(event.target.value) })}
                 className={inputClassName}
               />
+            </label>
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+              Currency
+              <select
+                value={review.currency}
+                onChange={(event) => setReview({ ...review, currency: event.target.value })}
+                className={inputClassName}
+              >
+                {SUPPORTED_CURRENCIES.map((currency) => (
+                  <option key={currency} value={currency}>
+                    {currency}
+                  </option>
+                ))}
+              </select>
             </label>
           </div>
 

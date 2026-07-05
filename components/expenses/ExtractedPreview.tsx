@@ -5,6 +5,7 @@ import { CheckCircle2, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { formatCurrency } from "@/lib/utils";
+import { SUPPORTED_CURRENCIES } from "@/lib/constants";
 import type { ExpenseCategory } from "@/lib/types";
 
 const CATEGORIES: ExpenseCategory[] = [
@@ -21,6 +22,7 @@ const CATEGORIES: ExpenseCategory[] = [
 export interface ExtractedData {
   merchant: string;
   amount: number;
+  currency: string;
   date: string;
   category: ExpenseCategory;
 }
@@ -72,7 +74,8 @@ export function ExtractedPreview({
         <div>
           <p className="font-semibold text-gray-900 dark:text-gray-100">Expense saved</p>
           <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">
-            {form.merchant} · {formatCurrency(form.amount)} was added to {form.category}.
+            {form.merchant} · {formatCurrency(form.amount, form.currency)} was added to{" "}
+            {form.category}.
           </p>
         </div>
         <Button variant="secondary" onClick={onDiscard}>
@@ -120,6 +123,20 @@ export function ExtractedPreview({
             onChange={(event) => setForm({ ...form, amount: Number(event.target.value) })}
             className={inputClassName}
           />
+        </label>
+        <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+          Currency
+          <select
+            value={form.currency}
+            onChange={(event) => setForm({ ...form, currency: event.target.value })}
+            className={inputClassName}
+          >
+            {SUPPORTED_CURRENCIES.map((currency) => (
+              <option key={currency} value={currency}>
+                {currency}
+              </option>
+            ))}
+          </select>
         </label>
         <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
           Date

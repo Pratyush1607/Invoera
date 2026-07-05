@@ -16,6 +16,7 @@ import {
   runCategorizeStage,
   type ExpenseFormState,
 } from "@/app/(app)/expenses/actions";
+import { SUPPORTED_CURRENCIES } from "@/lib/constants";
 import type { ExpenseCategory } from "@/lib/types";
 
 const CATEGORIES: ExpenseCategory[] = [
@@ -84,6 +85,7 @@ export function NewExpenseForm() {
     setResult({
       merchant: validated.data.merchant,
       amount: validated.data.amount,
+      currency: validated.data.currency,
       date: validated.data.date,
       category: categorized.data.category,
     });
@@ -164,6 +166,16 @@ export function NewExpenseForm() {
                 placeholder="55"
                 className={inputClassName}
               />
+            </label>
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+              Currency
+              <select name="currency" defaultValue="USD" className={inputClassName}>
+                {SUPPORTED_CURRENCIES.map((currency) => (
+                  <option key={currency} value={currency}>
+                    {currency}
+                  </option>
+                ))}
+              </select>
             </label>
             <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
               Status

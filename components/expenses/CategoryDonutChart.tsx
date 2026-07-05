@@ -8,6 +8,7 @@ import type { ExpenseCategory } from "@/lib/types";
 
 interface CategoryDonutChartProps {
   data: { category: ExpenseCategory; amount: number }[];
+  displayCurrency: string;
 }
 
 interface TooltipPayloadEntry {
@@ -18,27 +19,31 @@ interface TooltipPayloadEntry {
 function CategoryTooltip({
   active,
   payload,
+  displayCurrency,
 }: {
   active?: boolean;
   payload?: TooltipPayloadEntry[];
+  displayCurrency: string;
 }) {
   if (!active || !payload?.length) return null;
   const entry = payload[0];
   return (
     <div className="rounded-xl bg-gray-900 px-3 py-2 text-xs text-white shadow-lg ring-1 ring-white/10">
-      <p className="font-semibold">{formatCurrency(entry.value)}</p>
+      <p className="font-semibold">{formatCurrency(entry.value, displayCurrency)}</p>
       <p className="text-gray-300">{entry.name}</p>
     </div>
   );
 }
 
-export function CategoryDonutChart({ data }: CategoryDonutChartProps) {
+export function CategoryDonutChart({ data, displayCurrency }: CategoryDonutChartProps) {
   const total = data.reduce((sum, entry) => sum + entry.amount, 0);
 
   return (
     <Card className="p-5">
       <h3 className="font-bold text-gray-900 dark:text-gray-100">Spending by Category</h3>
-      <p className="text-sm text-gray-400 dark:text-gray-500">{formatCurrency(total)} total</p>
+      <p className="text-sm text-gray-400 dark:text-gray-500">
+        {formatCurrency(total, displayCurrency)} total
+      </p>
 
       <div className="mt-4 flex flex-col items-center gap-6 sm:flex-row">
         <div className="h-52 w-52 shrink-0">
@@ -58,7 +63,7 @@ export function CategoryDonutChart({ data }: CategoryDonutChartProps) {
                   <Cell key={entry.category} fill={CATEGORY_HEX[index % CATEGORY_HEX.length]} />
                 ))}
               </Pie>
-              <Tooltip content={<CategoryTooltip />} />
+              <Tooltip content={<CategoryTooltip displayCurrency={displayCurrency} />} />
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -73,7 +78,7 @@ export function CategoryDonutChart({ data }: CategoryDonutChartProps) {
                 {entry.category}
               </span>
               <span className="font-semibold text-gray-900 dark:text-gray-100">
-                {formatCurrency(entry.amount)}
+                {formatCurrency(entry.amount, displayCurrency)}
               </span>
             </li>
           ))}

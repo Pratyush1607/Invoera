@@ -3,8 +3,8 @@ import type { Client, ClientTotals, Expense, ExpenseCategory } from "./types";
 export function getClientTotals(client: Client): ClientTotals {
   const totals = client.invoices.reduce(
     (acc, invoice) => {
-      acc.total += invoice.amount;
-      acc[invoice.status] += invoice.amount;
+      acc.total += invoice.displayAmount;
+      acc[invoice.status] += invoice.displayAmount;
       return acc;
     },
     { total: 0, paid: 0, pending: 0, overdue: 0 }
@@ -28,7 +28,7 @@ export function getOverallInvoiceTotals(clients: Client[]): ClientTotals {
 }
 
 export function getTotalExpenses(expenses: Expense[]): number {
-  return expenses.reduce((sum, expense) => sum + expense.amount, 0);
+  return expenses.reduce((sum, expense) => sum + expense.displayAmount, 0);
 }
 
 export function getCategoryBreakdown(
@@ -36,7 +36,7 @@ export function getCategoryBreakdown(
 ): { category: ExpenseCategory; amount: number }[] {
   const totals = new Map<ExpenseCategory, number>();
   for (const expense of expenses) {
-    totals.set(expense.category, (totals.get(expense.category) ?? 0) + expense.amount);
+    totals.set(expense.category, (totals.get(expense.category) ?? 0) + expense.displayAmount);
   }
   return Array.from(totals.entries())
     .map(([category, amount]) => ({ category, amount }))
@@ -53,7 +53,7 @@ export function getMonthlySpend(
   const totals = new Map<string, number>();
   for (const expense of expenses) {
     const key = expense.date.slice(0, 7);
-    totals.set(key, (totals.get(key) ?? 0) + expense.amount);
+    totals.set(key, (totals.get(key) ?? 0) + expense.displayAmount);
   }
   return Array.from(totals.entries())
     .sort(([a], [b]) => (a < b ? -1 : 1))
@@ -66,7 +66,7 @@ export function getAnnualSpend(
   const totals = new Map<string, number>();
   for (const expense of expenses) {
     const key = expense.date.slice(0, 4);
-    totals.set(key, (totals.get(key) ?? 0) + expense.amount);
+    totals.set(key, (totals.get(key) ?? 0) + expense.displayAmount);
   }
   return Array.from(totals.entries())
     .sort(([a], [b]) => (a < b ? -1 : 1))
@@ -81,14 +81,14 @@ export function getMonthlyProfitLoss(
   for (const client of clients) {
     for (const invoice of client.invoices) {
       const key = invoice.date.slice(0, 7);
-      revenue.set(key, (revenue.get(key) ?? 0) + invoice.amount);
+      revenue.set(key, (revenue.get(key) ?? 0) + invoice.displayAmount);
     }
   }
 
   const spend = new Map<string, number>();
   for (const expense of expenses) {
     const key = expense.date.slice(0, 7);
-    spend.set(key, (spend.get(key) ?? 0) + expense.amount);
+    spend.set(key, (spend.get(key) ?? 0) + expense.displayAmount);
   }
 
   const keys = new Set([...revenue.keys(), ...spend.keys()]);
