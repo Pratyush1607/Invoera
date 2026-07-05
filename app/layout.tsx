@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ledgerly — Invoices & Expenses",
+  title: "Invoera — Invoices & Expenses",
   description: "AI-powered invoice and expense tracking.",
 };
 

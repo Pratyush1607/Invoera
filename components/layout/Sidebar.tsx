@@ -16,7 +16,7 @@ export function Sidebar() {
         <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-600 text-white">
           <Receipt className="h-5 w-5" />
         </span>
-        <span className="text-lg font-bold text-gray-900 dark:text-gray-100">Ledgerly</span>
+        <span className="text-lg font-bold text-gray-900 dark:text-gray-100">Invoera</span>
       </Link>
 
       <nav className="mt-8 flex flex-1 flex-col gap-1">
