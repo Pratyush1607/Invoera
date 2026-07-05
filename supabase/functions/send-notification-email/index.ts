@@ -8,6 +8,10 @@ interface NotificationEmailPayload {
   body: string;
 }
 
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_FIELD_LENGTH = 500;
+
 function timingSafeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
   let result = 0;
@@ -15,6 +19,33 @@ function timingSafeEqual(a: string, b: string): boolean {
     result |= a.charCodeAt(i) ^ b.charCodeAt(i);
   }
   return result === 0;
+}
+
+function escapeHtml(input: string): string {
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function isValidPayload(value: unknown): value is NotificationEmailPayload {
+  if (!value || typeof value !== "object") return false;
+  const payload = value as Record<string, unknown>;
+  return (
+    typeof payload.notificationId === "string" &&
+    UUID_PATTERN.test(payload.notificationId) &&
+    typeof payload.to === "string" &&
+    payload.to.length <= MAX_FIELD_LENGTH &&
+    EMAIL_PATTERN.test(payload.to) &&
+    typeof payload.subject === "string" &&
+    payload.subject.length > 0 &&
+    payload.subject.length <= MAX_FIELD_LENGTH &&
+    typeof payload.body === "string" &&
+    payload.body.length > 0 &&
+    payload.body.length <= MAX_FIELD_LENGTH
+  );
 }
 
 Deno.serve(async (req: Request) => {
@@ -28,11 +59,18 @@ Deno.serve(async (req: Request) => {
     });
   }
 
-  let payload: NotificationEmailPayload;
+  let payload: unknown;
   try {
     payload = await req.json();
   } catch {
     return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  if (!isValidPayload(payload)) {
+    return new Response(JSON.stringify({ error: "Malformed or oversized payload" }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
@@ -53,10 +91,10 @@ Deno.serve(async (req: Request) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "Ledgerly <onboarding@resend.dev>",
+      from: "Invoera <onboarding@resend.dev>",
       to: [payload.to],
       subject: payload.subject,
-      html: `<p>${payload.body}</p>`,
+      html: `<p>${escapeHtml(payload.body)}</p>`,
     }),
   });
 

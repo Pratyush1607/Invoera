@@ -50,11 +50,33 @@ export type Database = {
         }
         Relationships: []
       }
+      exchange_rates: {
+        Row: {
+          fetched_at: string
+          id: number
+          rates: Json
+          rates_as_of: string
+        }
+        Insert: {
+          fetched_at?: string
+          id?: number
+          rates: Json
+          rates_as_of: string
+        }
+        Update: {
+          fetched_at?: string
+          id?: number
+          rates?: Json
+          rates_as_of?: string
+        }
+        Relationships: []
+      }
       expenses: {
         Row: {
           amount: number
           category: string
           created_at: string
+          currency: string
           date: string
           id: string
           merchant: string
@@ -66,6 +88,7 @@ export type Database = {
           amount: number
           category: string
           created_at?: string
+          currency?: string
           date: string
           id?: string
           merchant: string
@@ -77,6 +100,7 @@ export type Database = {
           amount?: number
           category?: string
           created_at?: string
+          currency?: string
           date?: string
           id?: string
           merchant?: string
@@ -91,6 +115,7 @@ export type Database = {
           amount: number
           client_id: string
           created_at: string
+          currency: string
           date: string
           description: string
           due_date: string
@@ -104,6 +129,7 @@ export type Database = {
           amount: number
           client_id: string
           created_at?: string
+          currency?: string
           date: string
           description: string
           due_date: string
@@ -117,6 +143,7 @@ export type Database = {
           amount?: number
           client_id?: string
           created_at?: string
+          currency?: string
           date?: string
           description?: string
           due_date?: string
@@ -175,6 +202,7 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string
+          display_currency: string
           display_name: string
           email: string
           id: string
@@ -184,6 +212,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          display_currency?: string
           display_name: string
           email: string
           id: string
@@ -193,6 +222,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          display_currency?: string
           display_name?: string
           email?: string
           id?: string
@@ -202,13 +232,45 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limits: {
+        Row: {
+          action_key: string
+          identifier: string
+          request_count: number
+          window_start: string
+        }
+        Insert: {
+          action_key: string
+          identifier: string
+          request_count?: number
+          window_start?: string
+        }
+        Update: {
+          action_key?: string
+          identifier?: string
+          request_count?: number
+          window_start?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
       check_overdue_invoices: { Args: never; Returns: undefined }
+      check_rate_limit: {
+        Args: {
+          p_action_key: string
+          p_identifier: string
+          p_max_requests: number
+          p_window_seconds: number
+        }
+        Returns: boolean
+      }
+      cleanup_rate_limits: { Args: never; Returns: undefined }
       send_weekly_summaries: { Args: never; Returns: undefined }
+      trigger_exchange_rate_refresh: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
@@ -335,9 +397,3 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
-
-export const Constants = {
-  public: {
-    Enums: {},
-  },
-} as const

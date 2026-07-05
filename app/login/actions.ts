@@ -2,6 +2,11 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { checkRateLimit, getClientIp, RATE_LIMIT_MESSAGE } from "@/lib/rate-limit";
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_EMAIL_LENGTH = 254;
+const MAX_DISPLAY_NAME_LENGTH = 100;
 
 export interface AuthFormState {
   error?: string;
@@ -12,11 +17,19 @@ export async function signIn(
   _prevState: AuthFormState,
   formData: FormData
 ): Promise<AuthFormState> {
+  const ip = await getClientIp();
+  if (!(await checkRateLimit(ip, "signIn", 10, 300))) {
+    return { error: RATE_LIMIT_MESSAGE };
+  }
+
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
 
   if (!email || !password) {
     return { error: "Enter your email and password." };
+  }
+  if (email.length > MAX_EMAIL_LENGTH || !EMAIL_PATTERN.test(email)) {
+    return { error: "Enter a valid email address." };
   }
 
   const supabase = await createClient();
@@ -33,15 +46,26 @@ export async function signUp(
   _prevState: AuthFormState,
   formData: FormData
 ): Promise<AuthFormState> {
+  const ip = await getClientIp();
+  if (!(await checkRateLimit(ip, "signUp", 5, 3600))) {
+    return { error: RATE_LIMIT_MESSAGE };
+  }
+
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
-  const displayName = String(formData.get("displayName") ?? "").trim();
+  const displayName = String(formData.get("displayName") ?? "").trim().slice(0, MAX_DISPLAY_NAME_LENGTH);
 
   if (!email || !password) {
     return { error: "Enter your email and password." };
   }
+  if (email.length > MAX_EMAIL_LENGTH || !EMAIL_PATTERN.test(email)) {
+    return { error: "Enter a valid email address." };
+  }
   if (password.length < 6) {
     return { error: "Password must be at least 6 characters." };
+  }
+  if (password.length > 200) {
+    return { error: "Password is too long." };
   }
 
   const supabase = await createClient();
