@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import Link from "next/link";
 import { Receipt, Sparkles, PieChart, UploadCloud } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
@@ -29,7 +30,7 @@ export default function LoginPage() {
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15">
             <Receipt className="h-5 w-5" />
           </span>
-          <span className="text-lg font-bold">Ledgerly</span>
+          <span className="text-lg font-bold">Invoera</span>
         </div>
 
         <div className="max-w-md">
@@ -55,7 +56,16 @@ export default function LoginPage() {
           </ul>
         </div>
 
-        <p className="text-xs text-teal-200">© 2026 Ledgerly. All rights reserved.</p>
+        <p className="text-xs text-teal-200">
+          © 2026 Invoera. All rights reserved. ·{" "}
+          <Link href="/privacy" className="underline hover:text-white">
+            Privacy
+          </Link>{" "}
+          ·{" "}
+          <Link href="/terms" className="underline hover:text-white">
+            Terms
+          </Link>
+        </p>
 
         <div
           aria-hidden
@@ -73,7 +83,7 @@ export default function LoginPage() {
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-600 text-white">
               <Receipt className="h-5 w-5" />
             </span>
-            <span className="text-lg font-bold text-gray-900 dark:text-gray-100">Ledgerly</span>
+            <span className="text-lg font-bold text-gray-900 dark:text-gray-100">Invoera</span>
           </div>
 
           <div className="mb-6 flex gap-1 rounded-full bg-gray-100 p-1 dark:bg-gray-900">
@@ -199,6 +209,18 @@ export default function LoginPage() {
               </form>
             </>
           )}
+
+          <p className="mt-6 text-center text-xs text-gray-400 dark:text-gray-500">
+            By continuing, you agree to Invoera&apos;s{" "}
+            <Link href="/terms" className="text-teal-600 hover:underline dark:text-teal-400">
+              Terms of Use
+            </Link>{" "}
+            and{" "}
+            <Link href="/privacy" className="text-teal-600 hover:underline dark:text-teal-400">
+              Privacy Policy
+            </Link>
+            .
+          </p>
         </div>
       </div>
     </div>
