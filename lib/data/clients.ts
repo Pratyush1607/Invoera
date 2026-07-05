@@ -15,13 +15,20 @@ interface ClientRow {
     number: string;
     description: string;
     date: string;
+    due_date: string;
     amount: number;
     status: string;
   }[];
 }
 
 const CLIENT_SELECT =
-  "id, name, location, initials, color, status, last_sent_at, invoices(id, number, description, date, amount, status)";
+  "id, name, location, initials, color, status, last_sent_at, invoices(id, number, description, date, due_date, amount, status)";
+
+function deriveInvoiceStatus(status: string, dueDate: string): InvoiceStatus {
+  if (status === "paid") return "paid";
+  const today = new Date().toISOString().slice(0, 10);
+  return dueDate < today ? "overdue" : "pending";
+}
 
 function mapInvoice(row: ClientRow["invoices"][number]): Invoice {
   return {
@@ -29,8 +36,9 @@ function mapInvoice(row: ClientRow["invoices"][number]): Invoice {
     number: row.number,
     description: row.description,
     date: row.date,
+    dueDate: row.due_date,
     amount: Number(row.amount),
-    status: row.status as InvoiceStatus,
+    status: deriveInvoiceStatus(row.status, row.due_date),
   };
 }
 

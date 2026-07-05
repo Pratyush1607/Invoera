@@ -1,10 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import Link from "next/link";
+import { Plus, Search } from "lucide-react";
 import { ClientCard } from "@/components/clients/ClientCard";
 import { ClientFilterPills, type ClientFilter } from "@/components/clients/ClientFilterPills";
 import { RevenueGauge } from "@/components/clients/RevenueGauge";
+import { Button } from "@/components/ui/Button";
 import { getClientTotals } from "@/lib/calculations";
 import { HIGH_VALUE_THRESHOLD } from "@/lib/constants";
 import type { Client, ClientTotals } from "@/lib/types";
@@ -26,11 +28,19 @@ export function ClientsView({ clients, totals }: { clients: Client[]; totals: Cl
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">My Clients</h1>
-        <p className="text-sm text-gray-400 dark:text-gray-500">
-          {clients.length} clients on file
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">My Clients</h1>
+          <p className="text-sm text-gray-400 dark:text-gray-500">
+            {clients.length} clients on file
+          </p>
+        </div>
+        <Link href="/clients/new">
+          <Button className="shrink-0">
+            <Plus className="h-4 w-4" />
+            Add Client
+          </Button>
+        </Link>
       </div>
 
       <div className="relative">

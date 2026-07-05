@@ -43,11 +43,60 @@ export function getCategoryBreakdown(
     .sort((a, b) => b.amount - a.amount);
 }
 
-export function getMonthlyBreakdown(expenses: Expense[]): { month: string; amount: number }[] {
+function monthLabel(key: string): string {
+  return new Date(`${key}-01`).toLocaleDateString("en-US", { month: "short", year: "2-digit" });
+}
+
+export function getMonthlySpend(
+  expenses: Expense[]
+): { key: string; label: string; amount: number }[] {
   const totals = new Map<string, number>();
   for (const expense of expenses) {
-    const month = new Date(expense.date).toLocaleDateString("en-US", { month: "short" });
-    totals.set(month, (totals.get(month) ?? 0) + expense.amount);
+    const key = expense.date.slice(0, 7);
+    totals.set(key, (totals.get(key) ?? 0) + expense.amount);
   }
-  return Array.from(totals.entries()).map(([month, amount]) => ({ month, amount }));
+  return Array.from(totals.entries())
+    .sort(([a], [b]) => (a < b ? -1 : 1))
+    .map(([key, amount]) => ({ key, label: monthLabel(key), amount }));
+}
+
+export function getAnnualSpend(
+  expenses: Expense[]
+): { key: string; label: string; amount: number }[] {
+  const totals = new Map<string, number>();
+  for (const expense of expenses) {
+    const key = expense.date.slice(0, 4);
+    totals.set(key, (totals.get(key) ?? 0) + expense.amount);
+  }
+  return Array.from(totals.entries())
+    .sort(([a], [b]) => (a < b ? -1 : 1))
+    .map(([key, amount]) => ({ key, label: key, amount }));
+}
+
+export function getMonthlyProfitLoss(
+  clients: Client[],
+  expenses: Expense[]
+): { key: string; label: string; profit: number }[] {
+  const revenue = new Map<string, number>();
+  for (const client of clients) {
+    for (const invoice of client.invoices) {
+      const key = invoice.date.slice(0, 7);
+      revenue.set(key, (revenue.get(key) ?? 0) + invoice.amount);
+    }
+  }
+
+  const spend = new Map<string, number>();
+  for (const expense of expenses) {
+    const key = expense.date.slice(0, 7);
+    spend.set(key, (spend.get(key) ?? 0) + expense.amount);
+  }
+
+  const keys = new Set([...revenue.keys(), ...spend.keys()]);
+  return Array.from(keys)
+    .sort((a, b) => (a < b ? -1 : 1))
+    .map((key) => ({
+      key,
+      label: monthLabel(key),
+      profit: (revenue.get(key) ?? 0) - (spend.get(key) ?? 0),
+    }));
 }

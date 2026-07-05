@@ -61,7 +61,7 @@ export default async function ClientDetailPage({
 
       <InvoiceRatioCard totals={totals} />
 
-      <InvoiceHistoryList invoices={client.invoices} />
+      <InvoiceHistoryList clientId={client.id} invoices={client.invoices} />
     </div>
   );
 }

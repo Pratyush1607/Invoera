@@ -93,7 +93,9 @@ export type Database = {
           created_at: string
           date: string
           description: string
+          due_date: string
           id: string
+          notified_overdue_at: string | null
           number: string
           status: string
           user_id: string
@@ -104,7 +106,9 @@ export type Database = {
           created_at?: string
           date: string
           description: string
+          due_date: string
           id?: string
+          notified_overdue_at?: string | null
           number: string
           status: string
           user_id: string
@@ -115,7 +119,9 @@ export type Database = {
           created_at?: string
           date?: string
           description?: string
+          due_date?: string
           id?: string
+          notified_overdue_at?: string | null
           number?: string
           status?: string
           user_id?: string
@@ -130,24 +136,69 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string
+          emailed_at: string | null
+          id: string
+          link_path: string | null
+          read_at: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          emailed_at?: string | null
+          id?: string
+          link_path?: string | null
+          read_at?: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          emailed_at?: string | null
+          id?: string
+          link_path?: string | null
+          read_at?: string | null
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
           display_name: string
           email: string
           id: string
+          notify_expense_processed: boolean
+          notify_invoice_overdue: boolean
+          notify_weekly_summary: boolean
         }
         Insert: {
           created_at?: string
           display_name: string
           email: string
           id: string
+          notify_expense_processed?: boolean
+          notify_invoice_overdue?: boolean
+          notify_weekly_summary?: boolean
         }
         Update: {
           created_at?: string
           display_name?: string
           email?: string
           id?: string
+          notify_expense_processed?: boolean
+          notify_invoice_overdue?: boolean
+          notify_weekly_summary?: boolean
         }
         Relationships: []
       }
@@ -156,7 +207,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_overdue_invoices: { Args: never; Returns: undefined }
+      send_weekly_summaries: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never

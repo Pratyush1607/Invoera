@@ -5,6 +5,7 @@ export interface Invoice {
   number: string;
   description: string;
   date: string;
+  dueDate: string;
   amount: number;
   status: InvoiceStatus;
 }
@@ -49,4 +50,16 @@ export interface Expense {
   date: string;
   amount: number;
   status: ExpenseStatus;
+}
+
+export type NotificationType = "invoice_overdue" | "expense_processed" | "weekly_summary";
+
+export interface AppNotification {
+  id: string;
+  type: NotificationType;
+  title: string;
+  body: string;
+  linkPath: string | null;
+  readAt: string | null;
+  createdAt: string;
 }

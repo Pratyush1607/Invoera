@@ -1,8 +1,6 @@
 import { SummaryCards } from "@/components/dashboard/SummaryCards";
-import { CategoryDonutChart } from "@/components/dashboard/CategoryDonutChart";
-import { MonthlyBarChart } from "@/components/dashboard/MonthlyBarChart";
-import { InvoiceRatioCard } from "@/components/shared/InvoiceRatioCard";
-import { getCategoryBreakdown, getMonthlyBreakdown, getOverallInvoiceTotals } from "@/lib/calculations";
+import { ProfitLossChart } from "@/components/dashboard/ProfitLossChart";
+import { getMonthlyProfitLoss, getOverallInvoiceTotals, getTotalExpenses } from "@/lib/calculations";
 import { getClients } from "@/lib/data/clients";
 import { getExpenses } from "@/lib/data/expenses";
 
@@ -11,8 +9,8 @@ export default async function DashboardPage() {
 
   const totals = getOverallInvoiceTotals(clients);
   const invoiceCount = clients.reduce((sum, client) => sum + client.invoices.length, 0);
-  const categoryData = getCategoryBreakdown(expenses);
-  const monthlyData = getMonthlyBreakdown(expenses);
+  const totalSpend = getTotalExpenses(expenses);
+  const profitLossData = getMonthlyProfitLoss(clients, expenses);
 
   return (
     <div className="flex flex-col gap-6">
@@ -23,14 +21,9 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      <SummaryCards totals={totals} invoiceCount={invoiceCount} />
+      <SummaryCards totals={totals} invoiceCount={invoiceCount} totalSpend={totalSpend} />
 
-      <InvoiceRatioCard totals={totals} />
-
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <CategoryDonutChart data={categoryData} />
-        <MonthlyBarChart data={monthlyData} />
-      </div>
+      <ProfitLossChart data={profitLossData} />
     </div>
   );
 }

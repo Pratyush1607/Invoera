@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { formatCurrency } from "@/lib/utils";
@@ -36,11 +36,13 @@ const inputClassName =
 export function ExtractedPreview({
   data,
   fileName,
+  issues = [],
   onConfirm,
   onDiscard,
 }: {
   data: ExtractedData;
   fileName: string;
+  issues?: string[];
   onConfirm: (data: ExtractedData) => Promise<SaveResult>;
   onDiscard: () => void;
 }) {
@@ -86,6 +88,20 @@ export function ExtractedPreview({
       <p className="text-sm text-gray-400 dark:text-gray-500">
         From {fileName} — confirm before saving.
       </p>
+
+      {issues.length > 0 && (
+        <div className="mt-4 flex gap-2 rounded-xl bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-500/10 dark:text-amber-400">
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+          <div>
+            <p className="font-semibold">The AI pipeline flagged this for review</p>
+            <ul className="mt-1 list-disc pl-4">
+              {issues.map((issue) => (
+                <li key={issue}>{issue}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
 
       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
