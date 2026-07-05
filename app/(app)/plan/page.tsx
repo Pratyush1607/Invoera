@@ -2,10 +2,13 @@ import { Check } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
-const FREE_FEATURES = ["Up to 25 uploads / month", "1 dashboard", "Email support"];
+const FREE_FEATURES = [
+  "Unlimited AI-extracted invoices and receipts",
+  "Multi-currency dashboard and reporting",
+  "Email notifications",
+];
 const PRO_FEATURES = [
-  "Unlimited uploads",
-  "Multi-user access",
+  "Multi-user access for teams",
   "Priority AI processing",
   "Priority support",
 ];
@@ -16,7 +19,7 @@ export default function PlanPage() {
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Plan &amp; Billing</h1>
         <p className="text-sm text-gray-400 dark:text-gray-500">
-          You&apos;re currently on the Free plan.
+          Invoera is free for everyone right now — paid plans aren&apos;t open yet.
         </p>
       </div>
 
@@ -48,12 +51,11 @@ export default function PlanPage() {
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-gray-900 dark:text-gray-100">Pro</h3>
             <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-500/15 dark:text-amber-400">
-              Recommended
+              Coming soon
             </span>
           </div>
           <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">
-            $19
-            <span className="text-sm font-medium text-gray-400 dark:text-gray-500"> / month</span>
+            TBD<span className="text-sm font-medium text-gray-400 dark:text-gray-500"> / month</span>
           </p>
           <ul className="mt-4 flex flex-col gap-2.5">
             {PRO_FEATURES.map((feature) => (
@@ -66,7 +68,9 @@ export default function PlanPage() {
               </li>
             ))}
           </ul>
-          <Button className="mt-6 w-full">Upgrade to Pro</Button>
+          <Button className="mt-6 w-full" disabled title="Pro plans aren't available yet">
+            Coming soon
+          </Button>
         </Card>
       </div>
     </div>
