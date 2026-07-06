@@ -74,18 +74,38 @@ export async function updateProfileAction(
   return { message };
 }
 
-export async function updateDisplayCurrencyAction(formData: FormData): Promise<void> {
+export interface CurrencyFormState {
+  error?: string;
+}
+
+export async function updateDisplayCurrencyAction(
+  _prevState: CurrencyFormState,
+  formData: FormData
+): Promise<CurrencyFormState> {
   const supabase = await createSupabaseClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return;
-  if (!(await checkRateLimit(user.id, "updateDisplayCurrency", 30, 60))) return;
+  if (!user) return { error: "You must be signed in." };
+  if (!(await checkRateLimit(user.id, "updateDisplayCurrency", 30, 60))) {
+    return { error: RATE_LIMIT_MESSAGE };
+  }
 
   const displayCurrency = String(formData.get("display_currency") ?? "USD");
-  if (!(SUPPORTED_CURRENCIES as readonly string[]).includes(displayCurrency)) return;
+  if (!(SUPPORTED_CURRENCIES as readonly string[]).includes(displayCurrency)) {
+    return { error: "Select a valid currency." };
+  }
 
-  await supabase.from("profiles").update({ display_currency: displayCurrency }).eq("id", user.id);
+  const { error } = await supabase
+    .from("profiles")
+    .update({ display_currency: displayCurrency })
+    .eq("id", user.id);
+
+  if (error) {
+    console.error("updateDisplayCurrencyAction failed:", error.message);
+    return { error: error.message };
+  }
 
   revalidatePath("/", "layout");
+  return {};
 }

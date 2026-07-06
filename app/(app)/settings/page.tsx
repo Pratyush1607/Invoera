@@ -2,11 +2,11 @@ import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { ProfileCard } from "@/components/settings/ProfileCard";
+import { CurrencyForm } from "@/components/settings/CurrencyForm";
 import { getCategoryBreakdown } from "@/lib/calculations";
 import { getExpenses } from "@/lib/data/expenses";
 import { createClient } from "@/lib/supabase/server";
-import { SUPPORTED_CURRENCIES } from "@/lib/constants";
-import { updateNotificationPrefsAction, updateDisplayCurrencyAction } from "./actions";
+import { updateNotificationPrefsAction } from "./actions";
 
 export default async function SettingsPage() {
   const supabase = await createClient();
@@ -64,25 +64,7 @@ export default async function SettingsPage() {
         <p className="text-sm text-gray-400 dark:text-gray-500">
           The currency your Dashboard, Clients, and Expenses totals are converted to and shown in.
         </p>
-        <form action={updateDisplayCurrencyAction} className="mt-4 flex items-end gap-3">
-          <label className="flex flex-1 max-w-xs flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
-            Display currency
-            <select
-              name="display_currency"
-              defaultValue={profile?.display_currency ?? "USD"}
-              className="rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-teal-500/20"
-            >
-              {SUPPORTED_CURRENCIES.map((currency) => (
-                <option key={currency} value={currency}>
-                  {currency}
-                </option>
-              ))}
-            </select>
-          </label>
-          <Button type="submit" variant="secondary">
-            Save
-          </Button>
-        </form>
+        <CurrencyForm displayCurrency={profile?.display_currency ?? "USD"} />
       </Card>
 
       <Card className="p-5">
