@@ -37,11 +37,11 @@ export function ClientsView({
   return (
     <div className="flex flex-col gap-5">
       <div className="animate-rise flex items-start justify-between gap-4">
-        <div>
+        <div className="min-w-0">
           <h1 className="font-display text-2xl font-bold text-text">My Clients</h1>
-          <p className="text-sm text-muted">{clients.length} clients on file</p>
+          <p className="truncate text-sm text-muted">{clients.length} clients on file</p>
         </div>
-        <Link href="/clients/new">
+        <Link href="/clients/new" className="shrink-0">
           <Button className="shrink-0">
             <Plus className="h-4 w-4" />
             Add Client

@@ -36,13 +36,13 @@ export function ExpensesView({ expenses }: { expenses: Expense[] }) {
   return (
     <div className="flex flex-col gap-5">
       <div className="animate-rise flex items-start justify-between gap-4">
-        <div>
+        <div className="min-w-0">
           <h1 className="font-display text-2xl font-bold text-text">Expenses</h1>
-          <p className="text-sm text-muted">
+          <p className="truncate text-sm text-muted">
             {expenses.length} expenses on file · {formatCurrency(total, displayCurrency)} total
           </p>
         </div>
-        <Link href="/expenses/new">
+        <Link href="/expenses/new" className="shrink-0">
           <Button className="shrink-0">
             <Plus className="h-4 w-4" />
             Add Expense

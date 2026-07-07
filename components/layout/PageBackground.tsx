@@ -16,14 +16,14 @@ export function PageBackground({
   image?: string;
 }) {
   return (
-    <div className="relative flex flex-1 flex-col">
+    <div className="relative flex min-w-0 flex-1 flex-col">
       <div
         className="fixed inset-0 -z-10 bg-cover bg-center"
         style={{ backgroundImage: `url(${image})` }}
         aria-hidden="true"
       />
       <div className="fixed inset-0 -z-10 bg-bg opacity-80 dark:opacity-55" aria-hidden="true" />
-      <div className="relative z-10 flex-1">{children}</div>
+      <div className="relative z-10 min-w-0 flex-1">{children}</div>
     </div>
   );
 }

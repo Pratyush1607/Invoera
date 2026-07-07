@@ -34,10 +34,10 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="flex min-h-screen w-full">
       <Sidebar />
-      <div className="flex min-h-screen flex-1 flex-col">
+      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
         <Topbar user={user} notifications={notifications} unreadCount={unreadCount} />
-        <main className="flex flex-1 flex-col px-4 pb-24 pt-6 sm:px-6 lg:px-10 lg:pb-10">
-          <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col">{children}</div>
+        <main className="flex min-w-0 flex-1 flex-col px-4 pb-24 pt-6 sm:px-6 lg:px-10 lg:pb-10">
+          <div className="mx-auto flex w-full min-w-0 max-w-6xl flex-1 flex-col">{children}</div>
         </main>
       </div>
       <MobileNav />

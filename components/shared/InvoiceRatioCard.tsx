@@ -21,9 +21,9 @@ export function InvoiceRatioCard({
 
   return (
     <Card className="p-5">
-      <div className="flex items-center justify-between gap-4">
-        <h3 className="font-display font-bold text-text">{title}</h3>
-        <p className="text-sm text-muted">
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="min-w-0 truncate font-display font-bold text-text">{title}</h3>
+        <p className="shrink-0 text-sm text-muted">
           Total:{" "}
           <span className="font-semibold text-text">
             {formatCurrency(totals.total, displayCurrency)}

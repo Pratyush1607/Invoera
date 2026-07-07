@@ -34,12 +34,17 @@ export function StatTile({
     : value;
 
   return (
-    <Card className="animate-rise p-4">
+    <Card className="animate-rise min-w-0 p-4">
       <div className="flex items-center justify-between">
         <p className="text-xs font-semibold uppercase tracking-wide text-muted">{label}</p>
         {icon}
       </div>
-      <p className={cn("mt-1.5 font-display text-2xl font-bold text-text", valueClassName)}>
+      <p
+        className={cn(
+          "mt-1.5 break-words font-display text-xl font-bold text-text sm:text-2xl",
+          valueClassName
+        )}
+      >
         {displayValue}
       </p>
       {sublabel && <p className="mt-1 text-sm text-muted">{sublabel}</p>}
