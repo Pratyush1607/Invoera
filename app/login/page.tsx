@@ -4,6 +4,8 @@ import { useActionState, useState } from "react";
 import Link from "next/link";
 import { Receipt, Sparkles, PieChart, UploadCloud } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { BackgroundVideo } from "@/components/shared/BackgroundVideo";
 import { cn } from "@/lib/utils";
 import { signIn, signUp, type AuthFormState } from "./actions";
 
@@ -16,7 +18,17 @@ const FEATURES = [
 const initialState: AuthFormState = {};
 
 const inputClassName =
-  "rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-teal-500/20";
+  "rounded-[var(--radius-input)] border border-border px-4 py-2.5 text-sm text-text outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20 bg-surface";
+
+// The right-side form sits directly on the sign-in video (no card behind it), so
+// its muted text needs a theme-specific boost to stay legible over a busy clip —
+// darker + a light halo in light mode, the normal muted color in dark mode.
+const subtitleOnVideoClassName =
+  "mt-1 text-sm text-text/80 [text-shadow:0_1px_2px_rgba(255,255,255,0.6)] dark:text-muted dark:[text-shadow:none]";
+const footerOnVideoClassName =
+  "mt-6 text-center text-xs text-text/80 [text-shadow:0_1px_2px_rgba(255,255,255,0.6)] dark:text-muted dark:[text-shadow:none]";
+const footerLinkClassName =
+  "text-text underline dark:text-accent dark:no-underline dark:hover:underline [text-shadow:0_1px_2px_rgba(255,255,255,0.6)] dark:[text-shadow:none]";
 
 export default function LoginPage() {
   const [mode, setMode] = useState<"sign-in" | "sign-up">("sign-in");
@@ -24,20 +36,29 @@ export default function LoginPage() {
   const [signUpState, signUpAction, signUpPending] = useActionState(signUp, initialState);
 
   return (
-    <div className="flex min-h-screen w-full flex-col lg:flex-row">
-      <div className="relative hidden flex-1 flex-col justify-between overflow-hidden bg-teal-700 px-12 py-16 text-white lg:flex">
-        <div className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15">
+    <div className="relative flex min-h-screen w-full flex-wrap overflow-hidden">
+      <div className="absolute inset-0 -z-10">
+        <BackgroundVideo src="/video/signin-bg.mp4" loopStart={4} loopEnd={15} />
+        <div className="absolute inset-0 bg-panel-bg opacity-50" />
+      </div>
+
+      <div className="fixed top-6 right-6 z-10">
+        <ThemeToggle size="lg" />
+      </div>
+
+      <div className="relative hidden min-h-screen flex-1 flex-col justify-between px-12 py-14 text-panel-text lg:flex">
+        <div className="relative z-10 flex items-center gap-2">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-panel-chip">
             <Receipt className="h-5 w-5" />
           </span>
-          <span className="text-lg font-bold">Invoera</span>
+          <span className="font-display text-lg font-bold">Invoera</span>
         </div>
 
-        <div className="max-w-md">
-          <h1 className="text-4xl font-bold leading-tight">
+        <div className="relative z-10 max-w-md">
+          <h1 className="font-display text-4xl font-bold leading-tight">
             Invoicing and expenses, handled by AI.
           </h1>
-          <p className="mt-4 text-teal-100">
+          <p className="mt-4 text-panel-muted">
             Upload a receipt or invoice and a multi-agent pipeline extracts, validates, and
             categorizes it — so your dashboard is always up to date.
           </p>
@@ -45,8 +66,8 @@ export default function LoginPage() {
             {FEATURES.map((feature) => {
               const Icon = feature.icon;
               return (
-                <li key={feature.text} className="flex items-center gap-3 text-sm text-teal-50">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15">
+                <li key={feature.text} className="flex items-center gap-3 text-sm">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-panel-chip">
                     <Icon className="h-4 w-4" />
                   </span>
                   {feature.text}
@@ -56,45 +77,34 @@ export default function LoginPage() {
           </ul>
         </div>
 
-        <p className="text-xs text-teal-200">
+        <p className="relative z-10 text-xs text-panel-muted">
           © 2026 Invoera. All rights reserved. ·{" "}
-          <Link href="/privacy" className="underline hover:text-white">
+          <Link href="/privacy" className="underline hover:opacity-80">
             Privacy
           </Link>{" "}
           ·{" "}
-          <Link href="/terms" className="underline hover:text-white">
+          <Link href="/terms" className="underline hover:opacity-80">
             Terms
           </Link>
         </p>
-
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-teal-600/40"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-32 -left-10 h-72 w-72 rounded-full bg-teal-800/50"
-        />
       </div>
 
-      <div className="flex flex-1 items-center justify-center bg-gray-50 px-6 py-16 dark:bg-gray-950">
+      <div className="flex flex-1 items-center justify-center px-6 py-16">
         <div className="w-full max-w-sm">
           <div className="mb-8 flex items-center gap-2 lg:hidden">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-600 text-white">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent text-accent-text">
               <Receipt className="h-5 w-5" />
             </span>
-            <span className="text-lg font-bold text-gray-900 dark:text-gray-100">Invoera</span>
+            <span className="font-display text-lg font-bold text-text">Invoera</span>
           </div>
 
-          <div className="mb-6 flex gap-1 rounded-full bg-gray-100 p-1 dark:bg-gray-900">
+          <div className="mb-6 flex gap-1 rounded-full bg-surface-inset p-1">
             <button
               type="button"
               onClick={() => setMode("sign-in")}
               className={cn(
                 "flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors",
-                mode === "sign-in"
-                  ? "bg-white text-gray-900 shadow-sm dark:bg-gray-800 dark:text-gray-100"
-                  : "text-gray-500 dark:text-gray-400"
+                mode === "sign-in" ? "bg-surface text-text shadow-sm" : "text-muted"
               )}
             >
               Sign in
@@ -104,9 +114,7 @@ export default function LoginPage() {
               onClick={() => setMode("sign-up")}
               className={cn(
                 "flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors",
-                mode === "sign-up"
-                  ? "bg-white text-gray-900 shadow-sm dark:bg-gray-800 dark:text-gray-100"
-                  : "text-gray-500 dark:text-gray-400"
+                mode === "sign-up" ? "bg-surface text-text shadow-sm" : "text-muted"
               )}
             >
               Create account
@@ -115,15 +123,11 @@ export default function LoginPage() {
 
           {mode === "sign-in" ? (
             <>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                Welcome back
-              </h2>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                Sign in to see your latest invoices and expenses.
-              </p>
+              <h2 className="font-display text-2xl font-bold text-text">Welcome back</h2>
+              <p className={subtitleOnVideoClassName}>Sign in to see your latest invoices and expenses.</p>
 
               <form action={signInAction} className="mt-8 flex flex-col gap-4">
-                <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
                   Email
                   <input
                     name="email"
@@ -133,7 +137,7 @@ export default function LoginPage() {
                     className={inputClassName}
                   />
                 </label>
-                <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
                   Password
                   <input
                     name="password"
@@ -144,9 +148,7 @@ export default function LoginPage() {
                   />
                 </label>
 
-                {signInState.error && (
-                  <p className="text-sm text-red-600 dark:text-red-400">{signInState.error}</p>
-                )}
+                {signInState.error && <p className="text-sm text-danger">{signInState.error}</p>}
 
                 <Button type="submit" disabled={signInPending} className="mt-2 w-full">
                   {signInPending ? "Signing in…" : "Sign in"}
@@ -155,15 +157,11 @@ export default function LoginPage() {
             </>
           ) : (
             <>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                Create your account
-              </h2>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                Start tracking invoices and expenses in seconds.
-              </p>
+              <h2 className="font-display text-2xl font-bold text-text">Create your account</h2>
+              <p className={subtitleOnVideoClassName}>Start tracking invoices and expenses in seconds.</p>
 
               <form action={signUpAction} className="mt-8 flex flex-col gap-4">
-                <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
                   Full name
                   <input
                     name="displayName"
@@ -172,7 +170,7 @@ export default function LoginPage() {
                     className={inputClassName}
                   />
                 </label>
-                <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
                   Email
                   <input
                     name="email"
@@ -182,7 +180,7 @@ export default function LoginPage() {
                     className={inputClassName}
                   />
                 </label>
-                <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
                   Password
                   <input
                     name="password"
@@ -194,13 +192,9 @@ export default function LoginPage() {
                   />
                 </label>
 
-                {signUpState.error && (
-                  <p className="text-sm text-red-600 dark:text-red-400">{signUpState.error}</p>
-                )}
-                {signUpState.message && (
-                  <p className="text-sm text-teal-600 dark:text-teal-400">
-                    {signUpState.message}
-                  </p>
+                {signUpState.error && <p className="text-sm text-danger">{signUpState.error}</p>}
+                {signUpState.message && !signUpState.error && (
+                  <p className="text-sm text-accent">{signUpState.message}</p>
                 )}
 
                 <Button type="submit" disabled={signUpPending} className="mt-2 w-full">
@@ -210,13 +204,13 @@ export default function LoginPage() {
             </>
           )}
 
-          <p className="mt-6 text-center text-xs text-gray-400 dark:text-gray-500">
+          <p className={footerOnVideoClassName}>
             By continuing, you agree to Invoera&apos;s{" "}
-            <Link href="/terms" className="text-teal-600 hover:underline dark:text-teal-400">
+            <Link href="/terms" className={footerLinkClassName}>
               Terms of Use
             </Link>{" "}
             and{" "}
-            <Link href="/privacy" className="text-teal-600 hover:underline dark:text-teal-400">
+            <Link href="/privacy" className={footerLinkClassName}>
               Privacy Policy
             </Link>
             .

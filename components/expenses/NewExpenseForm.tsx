@@ -33,7 +33,7 @@ const CATEGORIES: ExpenseCategory[] = [
 const initialState: ExpenseFormState = {};
 
 const inputClassName =
-  "rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-teal-500/20";
+  "rounded-[var(--radius-input)] border border-border bg-surface px-4 py-2.5 text-sm text-text outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
 
 const STEPS: Step[] = [
   { label: "Extracting data", description: "Reading text and line items from the file" },
@@ -107,15 +107,15 @@ export function NewExpenseForm() {
     <div className="flex flex-col gap-6">
       <Link
         href="/expenses"
-        className="inline-flex w-fit items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+        className="inline-flex w-fit items-center gap-2 text-sm font-medium text-muted hover:text-text"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to expenses
       </Link>
 
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">New Expense</h1>
-        <p className="text-sm text-gray-400 dark:text-gray-500">
+        <h1 className="font-display text-2xl font-bold text-text">New Expense</h1>
+        <p className="text-sm text-muted">
           Fill it out manually, or upload a receipt and let the AI pipeline handle the rest.
         </p>
       </div>
@@ -125,13 +125,13 @@ export function NewExpenseForm() {
           <button
             type="button"
             onClick={() => setMode("upload")}
-            className="w-fit text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300"
+            className="w-fit text-sm font-semibold text-accent hover:opacity-80"
           >
             Upload a receipt instead
           </button>
 
           <form action={formAction} className="flex max-w-md flex-col gap-4">
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Merchant
               <input
                 name="merchant"
@@ -141,7 +141,7 @@ export function NewExpenseForm() {
                 className={inputClassName}
               />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Category
               <select name="category" defaultValue={CATEGORIES[0]} className={inputClassName}>
                 {CATEGORIES.map((category) => (
@@ -151,11 +151,11 @@ export function NewExpenseForm() {
                 ))}
               </select>
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Date
               <input name="date" type="date" required className={inputClassName} />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Amount
               <input
                 name="amount"
@@ -167,7 +167,7 @@ export function NewExpenseForm() {
                 className={inputClassName}
               />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Currency
               <select name="currency" defaultValue="USD" className={inputClassName}>
                 {SUPPORTED_CURRENCIES.map((currency) => (
@@ -177,7 +177,7 @@ export function NewExpenseForm() {
                 ))}
               </select>
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Status
               <select name="status" defaultValue="processed" className={inputClassName}>
                 <option value="processed">Processed</option>
@@ -185,7 +185,7 @@ export function NewExpenseForm() {
               </select>
             </label>
 
-            {state.error && <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>}
+            {state.error && <p className="text-sm text-danger">{state.error}</p>}
 
             <Button type="submit" disabled={pending} className="mt-2 w-full">
               {pending ? "Adding…" : "Add Expense"}
@@ -199,7 +199,7 @@ export function NewExpenseForm() {
           <button
             type="button"
             onClick={() => setMode("manual")}
-            className="inline-flex w-fit items-center gap-1 text-sm font-semibold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+            className="inline-flex w-fit items-center gap-1 text-sm font-semibold text-muted hover:text-text"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Back to manual entry
@@ -210,8 +210,8 @@ export function NewExpenseForm() {
 
       {mode === "processing" && (
         <Card className="p-6">
-          <p className="mb-6 text-sm text-gray-400 dark:text-gray-500">
-            Processing <span className="font-semibold text-gray-700 dark:text-gray-200">{file?.name}</span>
+          <p className="mb-6 text-sm text-muted">
+            Processing <span className="font-semibold text-text">{file?.name}</span>
           </p>
           <ProcessingStepper steps={STEPS} currentIndex={stepIndex} />
         </Card>
@@ -219,8 +219,8 @@ export function NewExpenseForm() {
 
       {mode === "error" && (
         <Card className="flex flex-col items-center gap-3 p-10 text-center">
-          <p className="font-semibold text-gray-900 dark:text-gray-100">Something went wrong</p>
-          <p className="text-sm text-gray-400 dark:text-gray-500">{pipelineError}</p>
+          <p className="font-semibold text-text">Something went wrong</p>
+          <p className="text-sm text-muted">{pipelineError}</p>
           <Button variant="secondary" onClick={() => setMode("upload")}>
             Try again
           </Button>

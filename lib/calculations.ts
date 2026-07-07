@@ -73,6 +73,21 @@ export function getAnnualSpend(
     .map(([key, amount]) => ({ key, label: key, amount }));
 }
 
+export function getMonthlyRevenue(
+  clients: Client[]
+): { key: string; label: string; amount: number }[] {
+  const revenue = new Map<string, number>();
+  for (const client of clients) {
+    for (const invoice of client.invoices) {
+      const key = invoice.date.slice(0, 7);
+      revenue.set(key, (revenue.get(key) ?? 0) + invoice.displayAmount);
+    }
+  }
+  return Array.from(revenue.entries())
+    .sort(([a], [b]) => (a < b ? -1 : 1))
+    .map(([key, amount]) => ({ key, label: monthLabel(key), amount }));
+}
+
 export function getMonthlyProfitLoss(
   clients: Client[],
   expenses: Expense[]

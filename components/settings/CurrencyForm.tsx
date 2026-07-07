@@ -27,12 +27,12 @@ export function CurrencyForm({ displayCurrency }: { displayCurrency: string }) {
   return (
     <form action={formAction} className="mt-4 flex flex-col gap-2">
       <div className="flex items-end gap-3">
-        <label className="flex flex-1 max-w-xs flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="flex flex-1 max-w-xs flex-col gap-1.5 text-sm font-medium text-text">
           Display currency
           <select
             name="display_currency"
             defaultValue={displayCurrency}
-            className="rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-teal-500/20"
+            className="rounded-[var(--radius-input)] border border-border bg-surface px-4 py-2.5 text-sm text-text outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
           >
             {SUPPORTED_CURRENCIES.map((currency) => (
               <option key={currency} value={currency}>
@@ -45,7 +45,7 @@ export function CurrencyForm({ displayCurrency }: { displayCurrency: string }) {
           {pending ? "Saving…" : "Save"}
         </Button>
       </div>
-      {state.error && <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>}
+      {state.error && <p className="text-sm text-danger">{state.error}</p>}
     </form>
   );
 }

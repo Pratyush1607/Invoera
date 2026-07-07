@@ -10,7 +10,7 @@ import { getInitials } from "@/lib/utils";
 const initialState: ProfileFormState = {};
 
 const inputClassName =
-  "rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-900 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:focus:ring-teal-500/20";
+  "rounded-[var(--radius-input)] border border-border px-3 py-2 text-sm text-text outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 bg-surface";
 
 export function ProfileCard({ displayName, email }: { displayName: string; email: string }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -24,21 +24,19 @@ export function ProfileCard({ displayName, email }: { displayName: string; email
 
   if (!isEditing) {
     return (
-      <Card className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+      <Card className="animate-rise flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
-          <Avatar initials={getInitials(displayName)} color="#0d9488" size={56} />
+          <Avatar initials={getInitials(displayName)} color="#0EA37A" size={56} />
           <div>
-            <p className="font-semibold text-gray-900 dark:text-gray-100">{displayName}</p>
-            <p className="text-sm text-gray-400 dark:text-gray-500">{email}</p>
+            <p className="font-semibold text-text">{displayName}</p>
+            <p className="text-sm text-muted">{email}</p>
           </div>
         </div>
         <div className="flex flex-col items-end gap-1">
           <Button variant="secondary" onClick={() => setIsEditing(true)}>
             Edit profile
           </Button>
-          {state.message && !state.error && (
-            <p className="text-xs text-teal-600 dark:text-teal-400">{state.message}</p>
-          )}
+          {state.message && !state.error && <p className="text-xs text-accent">{state.message}</p>}
         </div>
       </Card>
     );
@@ -48,9 +46,9 @@ export function ProfileCard({ displayName, email }: { displayName: string; email
     <Card className="p-5" key={`${displayName}-${email}`}>
       <form action={formAction} className="flex flex-col gap-4">
         <div className="flex items-center gap-4">
-          <Avatar initials={getInitials(displayName)} color="#0d9488" size={56} />
+          <Avatar initials={getInitials(displayName)} color="#0EA37A" size={56} />
           <div className="flex flex-1 flex-col gap-3 sm:flex-row">
-            <label className="flex flex-1 flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-1 flex-col gap-1.5 text-sm font-medium text-text">
               Display name
               <input
                 name="displayName"
@@ -60,7 +58,7 @@ export function ProfileCard({ displayName, email }: { displayName: string; email
                 className={inputClassName}
               />
             </label>
-            <label className="flex flex-1 flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-1 flex-col gap-1.5 text-sm font-medium text-text">
               Email
               <input
                 name="email"
@@ -73,7 +71,7 @@ export function ProfileCard({ displayName, email }: { displayName: string; email
           </div>
         </div>
 
-        {state.error && <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>}
+        {state.error && <p className="text-sm text-danger">{state.error}</p>}
 
         <div className="flex justify-end gap-3">
           <Button

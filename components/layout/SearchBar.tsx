@@ -52,8 +52,8 @@ export function SearchBar() {
 
   return (
     <div ref={containerRef} className="relative hidden sm:block sm:w-72">
-      <div className="flex items-center gap-2 rounded-full bg-gray-50 px-4 py-2 text-sm dark:bg-gray-800">
-        <Search className="h-4 w-4 shrink-0 text-gray-400 dark:text-gray-500" />
+      <div className="flex items-center gap-2 rounded-full bg-surface-inset px-4 py-2 text-sm">
+        <Search className="h-4 w-4 shrink-0 text-muted" />
         <input
           value={query}
           onChange={(event) => {
@@ -66,23 +66,21 @@ export function SearchBar() {
           }}
           maxLength={100}
           placeholder="Search invoices, clients..."
-          className="w-full bg-transparent text-gray-700 outline-none placeholder:text-gray-400 dark:text-gray-200 dark:placeholder:text-gray-500"
+          className="w-full bg-transparent text-text outline-none placeholder:text-muted"
         />
       </div>
 
       {showDropdown && (
-        <div className="absolute left-0 right-0 top-full z-20 mt-2 max-h-96 overflow-y-auto rounded-2xl border border-gray-100 bg-white p-2 shadow-lg dark:border-gray-800 dark:bg-gray-900">
-          {isPending && (
-            <p className="px-3 py-2 text-xs text-gray-400 dark:text-gray-500">Searching…</p>
-          )}
+        <div className="animate-drop-in absolute left-0 right-0 top-full z-20 mt-2 max-h-96 overflow-y-auto rounded-2xl border border-border bg-surface p-2 shadow-lg">
+          {isPending && <p className="px-3 py-2 text-xs text-muted">Searching…</p>}
 
           {!isPending && !hasResults && (
-            <p className="px-3 py-2 text-sm text-gray-400 dark:text-gray-500">No results found.</p>
+            <p className="px-3 py-2 text-sm text-muted">No results found.</p>
           )}
 
           {results.clients.length > 0 && (
             <div className="mb-1">
-              <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+              <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted">
                 Clients
               </p>
               {results.clients.map((client) => (
@@ -90,10 +88,10 @@ export function SearchBar() {
                   key={client.id}
                   type="button"
                   onClick={() => goTo(`/clients/${client.id}`)}
-                  className="flex w-full flex-col rounded-xl px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+                  className="flex w-full flex-col rounded-xl px-3 py-2 text-left text-sm hover:bg-surface-inset"
                 >
-                  <span className="font-medium text-gray-900 dark:text-gray-100">{client.name}</span>
-                  <span className="text-xs text-gray-400 dark:text-gray-500">{client.location}</span>
+                  <span className="font-medium text-text">{client.name}</span>
+                  <span className="text-xs text-muted">{client.location}</span>
                 </button>
               ))}
             </div>
@@ -101,7 +99,7 @@ export function SearchBar() {
 
           {results.invoices.length > 0 && (
             <div>
-              <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+              <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted">
                 Invoices
               </p>
               {results.invoices.map((invoice) => (
@@ -109,15 +107,15 @@ export function SearchBar() {
                   key={invoice.id}
                   type="button"
                   onClick={() => goTo(`/clients/${invoice.clientId}`)}
-                  className="flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+                  className="flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left text-sm hover:bg-surface-inset"
                 >
                   <span className="flex min-w-0 flex-col">
-                    <span className="truncate font-medium text-gray-900 dark:text-gray-100">
+                    <span className="truncate font-medium text-text">
                       {invoice.number} — {invoice.description}
                     </span>
-                    <span className="text-xs text-gray-400 dark:text-gray-500">{invoice.clientName}</span>
+                    <span className="text-xs text-muted">{invoice.clientName}</span>
                   </span>
-                  <span className="shrink-0 font-semibold text-gray-700 dark:text-gray-300">
+                  <span className="shrink-0 font-semibold text-text">
                     {formatCurrency(invoice.amount, invoice.currency)}
                   </span>
                 </button>

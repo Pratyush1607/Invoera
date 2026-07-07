@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Quicksand } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { ThemeScript } from "@/components/theme/ThemeScript";
 import "./globals.css";
@@ -11,6 +11,12 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const quicksand = Quicksand({
+  variable: "--font-quicksand",
+  weight: ["500", "600", "700"],
   subsets: ["latin"],
 });
 
@@ -27,13 +33,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${quicksand.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
         <ThemeScript />
       </head>
-      <body className="min-h-full flex flex-col bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+      <body className="min-h-full flex flex-col bg-bg text-text">
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

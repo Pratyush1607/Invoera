@@ -20,12 +20,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const stored = window.localStorage.getItem("theme");
-    const initial: Theme =
-      stored === "dark" || stored === "light"
-        ? stored
-        : window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light";
+    // First-time visitors (no stored preference) default to dark, matching
+    // the redesign's dark-first look. Returning visitors' saved choice
+    // always wins, and the manual toggle still works in both directions.
+    const initial: Theme = stored === "dark" || stored === "light" ? stored : "dark";
     setTheme(initial);
     applyThemeClass(initial);
   }, []);

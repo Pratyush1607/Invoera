@@ -2,9 +2,7 @@ const THEME_INIT_SCRIPT = `
 (function () {
   try {
     var stored = localStorage.getItem('theme');
-    var theme = stored === 'dark' || stored === 'light'
-      ? stored
-      : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var theme = stored === 'dark' || stored === 'light' ? stored : 'dark';
     if (theme === 'dark') document.documentElement.classList.add('dark');
   } catch (e) {}
 })();

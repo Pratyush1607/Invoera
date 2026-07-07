@@ -9,7 +9,7 @@ export function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-10 flex items-center justify-around border-t border-gray-100 bg-white py-2 lg:hidden dark:border-gray-800 dark:bg-gray-900">
+    <nav className="fixed inset-x-0 bottom-0 z-10 flex items-center justify-around border-t border-border bg-surface py-2 lg:hidden">
       {NAV_ITEMS.map((item) => {
         const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
         const Icon = item.icon;
@@ -19,7 +19,7 @@ export function MobileNav() {
             href={item.href}
             className={cn(
               "flex flex-col items-center gap-1 rounded-xl px-4 py-1.5 text-xs font-medium",
-              active ? "text-teal-700 dark:text-teal-400" : "text-gray-400 dark:text-gray-500"
+              active ? "text-accent" : "text-muted"
             )}
           >
             <Icon className="h-5 w-5" />

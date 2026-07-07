@@ -21,29 +21,48 @@ export function SummaryCards({
         label="Total Invoiced"
         value={formatCurrency(totals.total, displayCurrency)}
         sublabel={`${invoiceCount} invoices`}
+        animateValue
+        rawValue={totals.total}
+        displayCurrency={displayCurrency}
       />
       <StatTile
         label="Paid"
         value={formatCurrency(totals.paid, displayCurrency)}
-        valueClassName="text-teal-600 dark:text-teal-400"
+        valueClassName="text-accent"
+        animateValue
+        rawValue={totals.paid}
+        displayCurrency={displayCurrency}
       />
       <StatTile
         label="Pending"
         value={formatCurrency(totals.pending, displayCurrency)}
-        valueClassName="text-amber-600 dark:text-amber-400"
+        valueClassName="text-warning"
+        animateValue
+        rawValue={totals.pending}
+        displayCurrency={displayCurrency}
       />
       <StatTile
         label="Overdue"
         value={formatCurrency(totals.overdue, displayCurrency)}
-        valueClassName="text-red-600 dark:text-red-400"
+        valueClassName="text-danger"
+        animateValue
+        rawValue={totals.overdue}
+        displayCurrency={displayCurrency}
       />
-      <StatTile label="Total Spend" value={formatCurrency(totalSpend, displayCurrency)} />
+      <StatTile
+        label="Total Spend"
+        value={formatCurrency(totalSpend, displayCurrency)}
+        animateValue
+        rawValue={totalSpend}
+        displayCurrency={displayCurrency}
+      />
       <StatTile
         label="Profit / Loss"
         value={formatCurrency(profitLoss, displayCurrency)}
-        valueClassName={
-          profitLoss >= 0 ? "text-teal-600 dark:text-teal-400" : "text-red-600 dark:text-red-400"
-        }
+        valueClassName={profitLoss >= 0 ? "text-accent" : "text-danger"}
+        animateValue
+        rawValue={profitLoss}
+        displayCurrency={displayCurrency}
       />
     </div>
   );

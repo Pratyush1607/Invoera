@@ -23,8 +23,8 @@ export function ClientFilterPills({
           className={cn(
             "rounded-full px-4 py-2 text-sm font-semibold transition-colors",
             active === filter
-              ? "bg-teal-700 text-white"
-              : "bg-white text-gray-500 ring-1 ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-gray-700"
+              ? "bg-accent text-accent-text"
+              : "bg-surface text-muted ring-1 ring-border hover:bg-surface-inset"
           )}
         >
           {filter}

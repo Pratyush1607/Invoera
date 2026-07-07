@@ -1,11 +1,175 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+ * Semantic color tokens for the Invoera redesign. Values are indirected
+ * through custom properties (not baked into @theme directly) so the same
+ * compiled Tailwind utilities repaint correctly whenever ThemeProvider/
+ * ThemeScript toggle the `.dark` class on <html> — no rebuild needed.
+ * Keep these in sync with the DARK/LIGHT hex objects in lib/colors.ts,
+ * which some components need as raw hex for inline SVG stroke/fill.
+ */
+:root {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface-inset: #f1f1ee;
+  --border: #e7e7e3;
+  --text: #141414;
+  --muted: #75787c;
+  --accent: #0ea37a;
+  --accent-text: #ffffff;
+  --danger: #d6444c;
+  --warning: #e3a947;
+  --panel-bg: #0ea37a;
+  --panel-text: #ffffff;
+  --panel-muted: rgba(255, 255, 255, 0.8);
+  --panel-chip: rgba(255, 255, 255, 0.18);
+}
+
+.dark {
+  --bg: #0b0b0c;
+  --surface: #17181a;
+  --surface-inset: #1e1f21;
+  --border: #232427;
+  --text: #f2f2f0;
+  --muted: #8b8e92;
+  --accent: #2fd9a6;
+  --accent-text: #0b0b0c;
+  --danger: #e5636b;
+  --warning: #e3a947;
+  --panel-bg: #122e28;
+  --panel-text: #f2fbf8;
+  --panel-muted: rgba(242, 251, 248, 0.68);
+  --panel-chip: rgba(255, 255, 255, 0.1);
+}
+
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-quicksand);
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-inset: var(--surface-inset);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-panel-bg: var(--panel-bg);
+  --color-panel-text: var(--panel-text);
+
+  --radius-card: 16px;
+  --radius-input: 11px;
 }
 
 body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+@keyframes iv-pulse-once {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.12);
+  }
+  65% {
+    transform: scale(0.96);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-pulse-once {
+  animation: iv-pulse-once 0.6s ease 0.5s 1 both;
+}
+
+@keyframes iv-drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-drop-in {
+  animation: iv-drop-in 0.12s ease both;
+}
+
+@keyframes iv-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: iv-rise 0.5s ease both;
+}
+
+@keyframes iv-grow-h {
+  from {
+    height: 0%;
+  }
+  to {
+    height: var(--fh);
+  }
+}
+
+/*
+ * No animation-delay baked in here: each call site sets its own inline
+ * animationDelay (base pause + per-item stagger) so multi-bar rows cascade in
+ * rather than all growing in lockstep, and so growth is timed to start after
+ * any wrapping card's own entrance fade has had a chance to become visible.
+ */
+.animate-grow-h {
+  animation: iv-grow-h 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes iv-grow-w {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--fw);
+  }
+}
+
+.animate-grow-w {
+  animation: iv-grow-w 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes iv-grow-dash {
+  from {
+    stroke-dasharray: 0 var(--circ);
+  }
+  to {
+    stroke-dasharray: var(--dash);
+  }
+}
+
+.animate-grow-dash {
+  animation: iv-grow-dash 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-once,
+  .animate-drop-in,
+  .animate-rise,
+  .animate-grow-h,
+  .animate-grow-w,
+  .animate-grow-dash {
+    animation: none;
+  }
 }

@@ -14,7 +14,7 @@ export function Topbar({
   unreadCount: number;
 }) {
   return (
-    <header className="flex items-center justify-between gap-4 border-b border-gray-100 bg-white px-4 py-3 sm:px-6 lg:px-10 dark:border-gray-800 dark:bg-gray-900">
+    <header className="flex items-center justify-between gap-4 border-b border-border bg-surface px-4 py-3 sm:px-6 lg:px-10">
       <SearchBar />
       <div className="ml-auto flex items-center gap-3">
         <ThemeToggle />

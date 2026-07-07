@@ -33,7 +33,7 @@ export interface SaveResult {
 }
 
 const inputClassName =
-  "rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-900 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-teal-500 dark:focus:ring-teal-500/20";
+  "rounded-[var(--radius-input)] border border-border bg-surface px-3 py-2 text-sm text-text outline-none focus:border-accent focus:ring-2 focus:ring-accent/20";
 
 export function ExtractedPreview({
   data,
@@ -68,12 +68,12 @@ export function ExtractedPreview({
   if (saved) {
     return (
       <Card className="flex flex-col items-center gap-3 p-10 text-center">
-        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-teal-50 text-teal-600 dark:bg-teal-500/15 dark:text-teal-400">
+        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 text-accent">
           <CheckCircle2 className="h-6 w-6" />
         </span>
         <div>
-          <p className="font-semibold text-gray-900 dark:text-gray-100">Expense saved</p>
-          <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">
+          <p className="font-semibold text-text">Expense saved</p>
+          <p className="mt-1 text-sm text-muted">
             {form.merchant} · {formatCurrency(form.amount, form.currency)} was added to{" "}
             {form.category}.
           </p>
@@ -87,13 +87,11 @@ export function ExtractedPreview({
 
   return (
     <Card className="p-5">
-      <h3 className="font-bold text-gray-900 dark:text-gray-100">Review extracted details</h3>
-      <p className="text-sm text-gray-400 dark:text-gray-500">
-        From {fileName} — confirm before saving.
-      </p>
+      <h3 className="font-display font-bold text-text">Review extracted details</h3>
+      <p className="text-sm text-muted">From {fileName} — confirm before saving.</p>
 
       {issues.length > 0 && (
-        <div className="mt-4 flex gap-2 rounded-xl bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-500/10 dark:text-amber-400">
+        <div className="mt-4 flex gap-2 rounded-xl bg-warning/15 p-3 text-sm text-warning">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
           <div>
             <p className="font-semibold">The AI pipeline flagged this for review</p>
@@ -107,7 +105,7 @@ export function ExtractedPreview({
       )}
 
       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
           Merchant
           <input
             value={form.merchant}
@@ -115,7 +113,7 @@ export function ExtractedPreview({
             className={inputClassName}
           />
         </label>
-        <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
           Amount
           <input
             type="number"
@@ -124,7 +122,7 @@ export function ExtractedPreview({
             className={inputClassName}
           />
         </label>
-        <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
           Currency
           <select
             value={form.currency}
@@ -138,7 +136,7 @@ export function ExtractedPreview({
             ))}
           </select>
         </label>
-        <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
           Date
           <input
             type="date"
@@ -147,7 +145,7 @@ export function ExtractedPreview({
             className={inputClassName}
           />
         </label>
-        <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
           Category
           <select
             value={form.category}
@@ -165,7 +163,7 @@ export function ExtractedPreview({
         </label>
       </div>
 
-      {error && <p className="mt-4 text-sm text-red-600 dark:text-red-400">{error}</p>}
+      {error && <p className="mt-4 text-sm text-danger">{error}</p>}
 
       <div className="mt-6 flex justify-end gap-3">
         <Button variant="secondary" onClick={onDiscard} disabled={isPending}>

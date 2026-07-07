@@ -3,8 +3,10 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { StatTile } from "@/components/ui/StatTile";
+import { StatusBadge } from "@/components/ui/StatusBadge";
 import { InvoiceRatioCard } from "@/components/shared/InvoiceRatioCard";
 import { InvoiceHistoryList } from "@/components/clients/InvoiceHistoryList";
+import { PageBackground } from "@/components/layout/PageBackground";
 import { getClientTotals } from "@/lib/calculations";
 import { getClientById } from "@/lib/data/clients";
 import { getDisplayContext } from "@/lib/currency";
@@ -23,47 +25,57 @@ export default async function ClientDetailPage({
   const { displayCurrency } = await getDisplayContext();
 
   return (
-    <div className="flex flex-col gap-6">
-      <Link
-        href="/clients"
-        className="inline-flex w-fit items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to clients
-      </Link>
+    <PageBackground>
+      <div className="flex flex-col gap-5">
+        <Link
+          href="/clients"
+          className="animate-rise inline-flex w-fit items-center gap-2 text-sm font-medium text-muted hover:text-text"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to clients
+        </Link>
 
-      <div className="flex flex-col items-center gap-3 text-center">
-        <Avatar initials={client.initials} color={client.color} size={64} />
-        <div>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{client.name}</h1>
-          <p className="mt-1 flex items-center justify-center gap-1 text-sm text-gray-400 dark:text-gray-500">
-            <MapPin className="h-3.5 w-3.5" />
-            {client.location}
-          </p>
+        <div className="animate-rise flex items-center gap-3.5" style={{ animationDelay: "0.05s" }}>
+          <Avatar initials={client.initials} color={client.color} size={52} />
+          <div>
+            <h1 className="font-display text-xl font-bold text-text">{client.name}</h1>
+            <div className="mt-1 flex items-center gap-3">
+              <span className="flex items-center gap-1 text-sm text-muted">
+                <MapPin className="h-3.5 w-3.5" />
+                {client.location}
+              </span>
+              <StatusBadge status={client.status} />
+            </div>
+          </div>
         </div>
+
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <StatTile
+            label="Total"
+            value={formatCurrency(totals.total, displayCurrency)}
+            sublabel={`${client.invoices.length} invoices`}
+          />
+          <StatTile
+            label="Paid"
+            value={formatCurrency(totals.paid, displayCurrency)}
+            valueClassName="text-accent"
+          />
+          <StatTile
+            label="Pending"
+            value={formatCurrency(totals.pending, displayCurrency)}
+            valueClassName="text-warning"
+          />
+          <StatTile
+            label="Overdue"
+            value={formatCurrency(totals.overdue, displayCurrency)}
+            valueClassName="text-danger"
+          />
+        </div>
+
+        <InvoiceRatioCard totals={totals} displayCurrency={displayCurrency} />
+
+        <InvoiceHistoryList clientId={client.id} invoices={client.invoices} />
       </div>
-
-      <div className="grid grid-cols-3 gap-4">
-        <StatTile
-          label="Total Invoice"
-          value={formatCurrency(totals.total, displayCurrency)}
-          sublabel={`${client.invoices.length} Invoices`}
-        />
-        <StatTile
-          label="Paid"
-          value={formatCurrency(totals.paid, displayCurrency)}
-          valueClassName="text-teal-600 dark:text-teal-400"
-        />
-        <StatTile
-          label="Unpaid"
-          value={formatCurrency(totals.unpaid, displayCurrency)}
-          valueClassName="text-red-600 dark:text-red-400"
-        />
-      </div>
-
-      <InvoiceRatioCard totals={totals} displayCurrency={displayCurrency} />
-
-      <InvoiceHistoryList clientId={client.id} invoices={client.invoices} />
-    </div>
+    </PageBackground>
   );
 }

@@ -9,21 +9,28 @@ export function RatioBar({ segments }: { segments: Segment[] }) {
 
   return (
     <div>
-      <div className="flex h-3 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
-        {segments.map((seg) => (
-          <div
-            key={seg.label}
-            style={{ width: `${(seg.value / total) * 100}%`, backgroundColor: seg.color }}
-            className="h-full first:rounded-l-full last:rounded-r-full"
-          />
-        ))}
+      <div className="flex h-3 w-full overflow-hidden rounded-full bg-surface-inset">
+        {segments.map((seg, i) => {
+          const pct = (seg.value / total) * 100;
+          return (
+            <div
+              key={seg.label}
+              style={
+                {
+                  "--fw": `${pct}%`,
+                  width: `${pct}%`,
+                  backgroundColor: seg.color,
+                  animationDelay: `${0.4 + i * 0.08}s`,
+                } as React.CSSProperties
+              }
+              className="animate-grow-w h-full first:rounded-l-full last:rounded-r-full"
+            />
+          );
+        })}
       </div>
       <div className="mt-3 flex flex-wrap gap-4">
         {segments.map((seg) => (
-          <div
-            key={seg.label}
-            className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
-          >
+          <div key={seg.label} className="flex items-center gap-1.5 text-sm text-muted">
             <span className="h-2 w-2 rounded-full" style={{ backgroundColor: seg.color }} />
             {seg.label}
           </div>

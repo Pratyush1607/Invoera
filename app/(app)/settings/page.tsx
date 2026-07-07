@@ -3,6 +3,8 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { ProfileCard } from "@/components/settings/ProfileCard";
 import { CurrencyForm } from "@/components/settings/CurrencyForm";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { PageBackground } from "@/components/layout/PageBackground";
 import { getCategoryBreakdown } from "@/lib/calculations";
 import { getExpenses } from "@/lib/data/expenses";
 import { createClient } from "@/lib/supabase/server";
@@ -49,75 +51,83 @@ export default async function SettingsPage() {
   const categories = getCategoryBreakdown(expenses);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Settings</h1>
-        <p className="text-sm text-gray-400 dark:text-gray-500">
-          Manage your profile and preferences.
-        </p>
-      </div>
+    <PageBackground>
+      <div className="flex flex-col gap-5">
+        <div className="animate-rise">
+          <h1 className="font-display text-2xl font-bold text-text">Settings</h1>
+          <p className="text-sm text-muted">Manage your profile and preferences.</p>
+        </div>
 
-      <ProfileCard displayName={displayName} email={email} />
+        <ProfileCard displayName={displayName} email={email} />
 
-      <Card className="p-5">
-        <h3 className="font-bold text-gray-900 dark:text-gray-100">Currency</h3>
-        <p className="text-sm text-gray-400 dark:text-gray-500">
-          The currency your Dashboard, Clients, and Expenses totals are converted to and shown in.
-        </p>
-        <CurrencyForm displayCurrency={profile?.display_currency ?? "USD"} />
-      </Card>
+        <Card className="animate-rise p-5" style={{ animationDelay: "0.12s" }}>
+          <h3 className="font-display font-bold text-text">Currency</h3>
+          <p className="text-sm text-muted">
+            The currency your Dashboard, Clients, and Expenses totals are converted to and shown in.
+          </p>
+          <CurrencyForm displayCurrency={profile?.display_currency ?? "USD"} />
+        </Card>
 
-      <Card className="p-5">
-        <h3 className="font-bold text-gray-900 dark:text-gray-100">Notifications</h3>
-        <form action={updateNotificationPrefsAction}>
-          <div className="mt-2 flex flex-col divide-y divide-gray-100 dark:divide-gray-800">
-            {NOTIFICATION_PREFS.map((item) => (
-              <label
-                key={item.name}
-                className="flex items-center justify-between gap-4 py-3 text-sm text-gray-600 dark:text-gray-300"
+        <Card className="animate-rise p-5" style={{ animationDelay: "0.19s" }}>
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h3 className="font-display font-bold text-text">Appearance</h3>
+              <p className="text-sm text-muted">Switch between light and dark mode.</p>
+            </div>
+            <ThemeToggle />
+          </div>
+        </Card>
+
+        <Card className="p-5">
+          <h3 className="font-display font-bold text-text">Notifications</h3>
+          <form action={updateNotificationPrefsAction}>
+            <div className="mt-2 flex flex-col divide-y divide-border">
+              {NOTIFICATION_PREFS.map((item) => (
+                <label
+                  key={item.name}
+                  className="flex items-center justify-between gap-4 py-3 text-sm text-muted"
+                >
+                  {item.label}
+                  <input
+                    type="checkbox"
+                    name={item.name}
+                    defaultChecked={item.defaultChecked}
+                    className="h-4 w-4 rounded border-border accent-accent"
+                  />
+                </label>
+              ))}
+            </div>
+            <Button type="submit" variant="secondary" className="mt-4">
+              Save preferences
+            </Button>
+          </form>
+        </Card>
+
+        <Card className="p-5">
+          <h3 className="font-display font-bold text-text">Expense categories</h3>
+          <p className="text-sm text-muted">Categories the AI pipeline sorts your receipts into.</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {categories.map((entry) => (
+              <span
+                key={entry.category}
+                className="rounded-full bg-surface-inset px-3 py-1.5 text-sm font-medium text-muted ring-1 ring-border"
               >
-                {item.label}
-                <input
-                  type="checkbox"
-                  name={item.name}
-                  defaultChecked={item.defaultChecked}
-                  className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800"
-                />
-              </label>
+                {entry.category}
+              </span>
             ))}
           </div>
-          <Button type="submit" variant="secondary" className="mt-4">
-            Save preferences
-          </Button>
-        </form>
-      </Card>
+        </Card>
 
-      <Card className="p-5">
-        <h3 className="font-bold text-gray-900 dark:text-gray-100">Expense categories</h3>
-        <p className="text-sm text-gray-400 dark:text-gray-500">
-          Categories the AI pipeline sorts your receipts into.
+        <p className="text-xs text-muted">
+          <Link href="/privacy" className="hover:underline">
+            Privacy Policy
+          </Link>{" "}
+          ·{" "}
+          <Link href="/terms" className="hover:underline">
+            Terms of Use
+          </Link>
         </p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {categories.map((entry) => (
-            <span
-              key={entry.category}
-              className="rounded-full bg-gray-50 px-3 py-1.5 text-sm font-medium text-gray-600 ring-1 ring-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:ring-gray-700"
-            >
-              {entry.category}
-            </span>
-          ))}
-        </div>
-      </Card>
-
-      <p className="text-xs text-gray-400 dark:text-gray-500">
-        <Link href="/privacy" className="hover:underline">
-          Privacy Policy
-        </Link>{" "}
-        ·{" "}
-        <Link href="/terms" className="hover:underline">
-          Terms of Use
-        </Link>
-      </p>
-    </div>
+      </div>
+    </PageBackground>
   );
 }

@@ -30,20 +30,16 @@ export function UploadDropzone({ onFileSelected }: { onFileSelected: (file: File
       className={cn(
         "flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-16 text-center transition-colors",
         isDragging
-          ? "border-teal-500 bg-teal-50 dark:bg-teal-500/10"
-          : "border-gray-200 bg-white hover:border-teal-300 hover:bg-teal-50/40 dark:border-gray-700 dark:bg-gray-900 dark:hover:border-teal-600 dark:hover:bg-teal-500/5"
+          ? "border-accent bg-accent/10"
+          : "border-border bg-surface hover:border-accent/50 hover:bg-accent/5"
       )}
     >
-      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-teal-50 text-teal-600 dark:bg-teal-500/15 dark:text-teal-400">
+      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-accent/10 text-accent">
         <UploadCloud className="h-6 w-6" />
       </span>
       <div>
-        <p className="font-semibold text-gray-900 dark:text-gray-100">
-          Drop a receipt or invoice here
-        </p>
-        <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">
-          or click to browse — PDF, JPG, or PNG
-        </p>
+        <p className="font-semibold text-text">Drop a receipt or invoice here</p>
+        <p className="mt-1 text-sm text-muted">or click to browse — PDF, JPG, or PNG</p>
       </div>
       <input
         ref={inputRef}

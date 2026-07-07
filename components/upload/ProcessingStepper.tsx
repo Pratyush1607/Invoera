@@ -22,9 +22,9 @@ export function ProcessingStepper({
             <span
               className={cn(
                 "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
-                status === "done" && "bg-teal-600 text-white",
-                status === "active" && "bg-teal-50 text-teal-600 dark:bg-teal-500/15 dark:text-teal-400",
-                status === "pending" && "bg-gray-100 text-gray-300 dark:bg-gray-800 dark:text-gray-600"
+                status === "done" && "bg-accent text-accent-text",
+                status === "active" && "bg-accent/10 text-accent",
+                status === "pending" && "bg-surface-inset text-muted"
               )}
             >
               {status === "done" && <Check className="h-4 w-4" />}
@@ -35,14 +35,12 @@ export function ProcessingStepper({
               <p
                 className={cn(
                   "text-sm font-semibold",
-                  status === "pending"
-                    ? "text-gray-400 dark:text-gray-500"
-                    : "text-gray-900 dark:text-gray-100"
+                  status === "pending" ? "text-muted" : "text-text"
                 )}
               >
                 {step.label}
               </p>
-              <p className="text-xs text-gray-400 dark:text-gray-500">{step.description}</p>
+              <p className="text-xs text-muted">{step.description}</p>
             </div>
           </li>
         );

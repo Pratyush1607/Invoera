@@ -35,13 +35,11 @@ export function ClientsView({
   }, [clients, filter, query]);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-start justify-between gap-4">
+    <div className="flex flex-col gap-5">
+      <div className="animate-rise flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">My Clients</h1>
-          <p className="text-sm text-gray-400 dark:text-gray-500">
-            {clients.length} clients on file
-          </p>
+          <h1 className="font-display text-2xl font-bold text-text">My Clients</h1>
+          <p className="text-sm text-muted">{clients.length} clients on file</p>
         </div>
         <Link href="/clients/new">
           <Button className="shrink-0">
@@ -51,29 +49,31 @@ export function ClientsView({
         </Link>
       </div>
 
-      <div className="relative">
-        <Search className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
+      <div className="animate-rise relative" style={{ animationDelay: "0.05s" }}>
+        <Search className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-muted" />
         <input
           type="text"
           placeholder="Search clients..."
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          className="w-full rounded-full border border-gray-200 bg-white py-2.5 pr-4 pl-11 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-teal-500/20"
+          className="w-full rounded-full border border-border bg-surface py-2.5 pr-4 pl-11 text-sm text-text outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20"
         />
       </div>
 
-      <RevenueGauge totals={totals} displayCurrency={displayCurrency} />
+      <div className="animate-rise" style={{ animationDelay: "0.1s" }}>
+        <RevenueGauge totals={totals} displayCurrency={displayCurrency} />
+      </div>
 
-      <ClientFilterPills active={filter} onChange={setFilter} />
+      <div className="animate-rise" style={{ animationDelay: "0.15s" }}>
+        <ClientFilterPills active={filter} onChange={setFilter} />
+      </div>
 
       <div className="flex flex-col gap-3">
-        {filteredClients.map((client) => (
-          <ClientCard key={client.id} client={client} />
+        {filteredClients.map((client, index) => (
+          <ClientCard key={client.id} client={client} index={index} />
         ))}
         {filteredClients.length === 0 && (
-          <p className="py-12 text-center text-sm text-gray-400 dark:text-gray-500">
-            No clients match your search.
-          </p>
+          <p className="py-12 text-center text-sm text-muted">No clients match your search.</p>
         )}
       </div>
     </div>

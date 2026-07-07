@@ -19,7 +19,7 @@ import { SUPPORTED_CURRENCIES } from "@/lib/constants";
 const initialState: InvoiceFormState = {};
 
 const inputClassName =
-  "rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-teal-500/20";
+  "rounded-[var(--radius-input)] border border-border bg-surface px-4 py-2.5 text-sm text-text outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
 
 const STEPS: Step[] = [
   { label: "Extracting data", description: "Reading fields from the invoice document" },
@@ -85,15 +85,15 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
     <div className="flex flex-col gap-6">
       <Link
         href={`/clients/${clientId}`}
-        className="inline-flex w-fit items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+        className="inline-flex w-fit items-center gap-2 text-sm font-medium text-muted hover:text-text"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to {clientName}
       </Link>
 
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">New Invoice</h1>
-        <p className="text-sm text-gray-400 dark:text-gray-500">For {clientName}</p>
+        <h1 className="font-display text-2xl font-bold text-text">New Invoice</h1>
+        <p className="text-sm text-muted">For {clientName}</p>
       </div>
 
       {mode === "manual" && (
@@ -101,13 +101,13 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
           <button
             type="button"
             onClick={() => setMode("upload")}
-            className="w-fit text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300"
+            className="w-fit text-sm font-semibold text-accent hover:opacity-80"
           >
             Upload an invoice document instead
           </button>
 
           <form action={formAction} className="flex max-w-md flex-col gap-4">
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Invoice number
               <input
                 name="number"
@@ -117,7 +117,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
                 className={inputClassName}
               />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Description
               <input
                 name="description"
@@ -127,15 +127,15 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
                 className={inputClassName}
               />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Date
               <input name="date" type="date" required className={inputClassName} />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Due date
               <input name="dueDate" type="date" required className={inputClassName} />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Amount
               <input
                 name="amount"
@@ -147,7 +147,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
                 className={inputClassName}
               />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Currency
               <select name="currency" defaultValue="USD" className={inputClassName}>
                 {SUPPORTED_CURRENCIES.map((currency) => (
@@ -157,7 +157,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
                 ))}
               </select>
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Status
               <select name="status" defaultValue="pending" className={inputClassName}>
                 <option value="pending">Pending</option>
@@ -165,7 +165,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
               </select>
             </label>
 
-            {state.error && <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>}
+            {state.error && <p className="text-sm text-danger">{state.error}</p>}
 
             <Button type="submit" disabled={pending} className="mt-2 w-full">
               {pending ? "Adding…" : "Add Invoice"}
@@ -179,7 +179,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
           <button
             type="button"
             onClick={() => setMode("manual")}
-            className="inline-flex w-fit items-center gap-1 text-sm font-semibold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+            className="inline-flex w-fit items-center gap-1 text-sm font-semibold text-muted hover:text-text"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Back to manual entry
@@ -190,8 +190,8 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
 
       {mode === "processing" && (
         <Card className="p-6">
-          <p className="mb-6 text-sm text-gray-400 dark:text-gray-500">
-            Processing <span className="font-semibold text-gray-700 dark:text-gray-200">{fileName}</span>
+          <p className="mb-6 text-sm text-muted">
+            Processing <span className="font-semibold text-text">{fileName}</span>
           </p>
           <ProcessingStepper steps={STEPS} currentIndex={stepIndex} />
         </Card>
@@ -199,8 +199,8 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
 
       {mode === "error" && (
         <Card className="flex flex-col items-center gap-3 p-10 text-center">
-          <p className="font-semibold text-gray-900 dark:text-gray-100">Something went wrong</p>
-          <p className="text-sm text-gray-400 dark:text-gray-500">{pipelineError}</p>
+          <p className="font-semibold text-text">Something went wrong</p>
+          <p className="text-sm text-muted">{pipelineError}</p>
           <Button variant="secondary" onClick={() => setMode("upload")}>
             Try again
           </Button>
@@ -209,13 +209,11 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
 
       {mode === "review" && review && (
         <Card className="p-5">
-          <h3 className="font-bold text-gray-900 dark:text-gray-100">Review extracted details</h3>
-          <p className="text-sm text-gray-400 dark:text-gray-500">
-            From {fileName} — confirm before saving.
-          </p>
+          <h3 className="font-display font-bold text-text">Review extracted details</h3>
+          <p className="text-sm text-muted">From {fileName} — confirm before saving.</p>
 
           {review.issues.length > 0 && (
-            <div className="mt-4 flex gap-2 rounded-xl bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-500/10 dark:text-amber-400">
+            <div className="mt-4 flex gap-2 rounded-xl bg-warning/15 p-3 text-sm text-warning">
               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
               <div>
                 <p className="font-semibold">The AI pipeline flagged this for review</p>
@@ -229,7 +227,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
           )}
 
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Invoice number
               <input
                 value={review.number}
@@ -237,7 +235,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
                 className={inputClassName}
               />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Description
               <input
                 value={review.description}
@@ -245,7 +243,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
                 className={inputClassName}
               />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Date
               <input
                 type="date"
@@ -254,7 +252,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
                 className={inputClassName}
               />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Due date
               <input
                 type="date"
@@ -263,7 +261,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
                 className={inputClassName}
               />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Amount
               <input
                 type="number"
@@ -272,7 +270,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
                 className={inputClassName}
               />
             </label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex flex-col gap-1.5 text-sm font-medium text-text">
               Currency
               <select
                 value={review.currency}
@@ -288,7 +286,7 @@ export function NewInvoiceForm({ clientId, clientName }: { clientId: string; cli
             </label>
           </div>
 
-          {saveError && <p className="mt-4 text-sm text-red-600 dark:text-red-400">{saveError}</p>}
+          {saveError && <p className="mt-4 text-sm text-danger">{saveError}</p>}
 
           <div className="mt-6 flex justify-end gap-3">
             <Button variant="secondary" onClick={() => setMode("upload")} disabled={isSaving}>
