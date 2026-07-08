@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { Suspense, useActionState, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
@@ -13,6 +13,14 @@ import { inputClassName } from "@/lib/ui-classes";
 const initialState: AuthFormState = {};
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const searchParams = useSearchParams();
   const [mode, setMode] = useState<"sign-in" | "sign-up">(
     searchParams.get("mode") === "signup" ? "sign-up" : "sign-in"
