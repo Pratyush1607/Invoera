@@ -57,7 +57,7 @@ export function ExpensesView({ expenses }: { expenses: Expense[] }) {
           placeholder="Search by merchant or category..."
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          className="w-full rounded-full border border-border bg-surface py-2.5 pr-4 pl-11 text-sm text-text outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20"
+          className="w-full rounded-full border border-border bg-card py-2.5 pr-4 pl-11 text-sm text-text outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20"
         />
       </div>
 

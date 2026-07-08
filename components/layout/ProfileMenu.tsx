@@ -48,13 +48,13 @@ export function ProfileMenu({
         aria-expanded={open}
         className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
       >
-        <Avatar initials={initials} color="#0EA37A" size={38} />
+        <Avatar initials={initials} color="#6D5DF0" size={38} />
       </button>
 
       {open && (
         <div
           role="menu"
-          className="animate-drop-in absolute right-0 z-20 mt-2 w-60 overflow-hidden rounded-2xl bg-surface py-2 shadow-lg ring-1 ring-border"
+          className="animate-drop-in absolute right-0 z-20 mt-2 w-60 overflow-hidden rounded-2xl bg-card py-2 shadow-lg ring-1 ring-border"
         >
           <div className="px-4 py-2">
             <p className="truncate text-sm font-semibold text-text">{user.displayName}</p>
@@ -69,7 +69,7 @@ export function ProfileMenu({
                 href={item.href}
                 role="menuitem"
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-muted hover:bg-surface-inset hover:text-text"
+                className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-muted hover:bg-input-bg hover:text-text"
               >
                 <Icon className="h-4 w-4" />
                 {item.label}

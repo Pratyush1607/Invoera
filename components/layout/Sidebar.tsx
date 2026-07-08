@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Receipt, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOutAction } from "@/app/login/actions";
+import { Logo } from "@/components/ui/Logo";
 import { NAV_ITEMS, NAV_ROW_STRIDE } from "./nav-items";
 
 export function Sidebar() {
@@ -14,11 +15,9 @@ export function Sidebar() {
   );
 
   return (
-    <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-surface px-4 py-6 lg:flex">
+    <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-card px-4 py-6 lg:flex">
       <Link href="/dashboard" className="flex items-center gap-2 px-2">
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent text-accent-text">
-          <Receipt className="h-5 w-5" />
-        </span>
+        <Logo />
         <span className="font-display text-lg font-bold text-text">Invoera</span>
       </Link>
 
@@ -51,7 +50,7 @@ export function Sidebar() {
       <form action={signOutAction}>
         <button
           type="submit"
-          className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-muted hover:bg-surface-inset hover:text-text"
+          className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-muted hover:bg-input-bg hover:text-text"
         >
           <LogOut className="h-5 w-5" />
           Log out

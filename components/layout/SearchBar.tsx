@@ -52,7 +52,7 @@ export function SearchBar() {
 
   return (
     <div ref={containerRef} className="relative hidden sm:block sm:w-72">
-      <div className="flex items-center gap-2 rounded-full bg-surface-inset px-4 py-2 text-sm">
+      <div className="flex items-center gap-2 rounded-full bg-input-bg px-4 py-2 text-sm">
         <Search className="h-4 w-4 shrink-0 text-muted" />
         <input
           value={query}
@@ -71,7 +71,7 @@ export function SearchBar() {
       </div>
 
       {showDropdown && (
-        <div className="animate-drop-in absolute left-0 right-0 top-full z-20 mt-2 max-h-96 overflow-y-auto rounded-2xl border border-border bg-surface p-2 shadow-lg">
+        <div className="animate-drop-in absolute left-0 right-0 top-full z-20 mt-2 max-h-96 overflow-y-auto rounded-2xl border border-border bg-card p-2 shadow-lg">
           {isPending && <p className="px-3 py-2 text-xs text-muted">Searching…</p>}
 
           {!isPending && !hasResults && (
@@ -88,7 +88,7 @@ export function SearchBar() {
                   key={client.id}
                   type="button"
                   onClick={() => goTo(`/clients/${client.id}`)}
-                  className="flex w-full flex-col rounded-xl px-3 py-2 text-left text-sm hover:bg-surface-inset"
+                  className="flex w-full flex-col rounded-xl px-3 py-2 text-left text-sm hover:bg-input-bg"
                 >
                   <span className="font-medium text-text">{client.name}</span>
                   <span className="text-xs text-muted">{client.location}</span>
@@ -107,7 +107,7 @@ export function SearchBar() {
                   key={invoice.id}
                   type="button"
                   onClick={() => goTo(`/clients/${invoice.clientId}`)}
-                  className="flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left text-sm hover:bg-surface-inset"
+                  className="flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left text-sm hover:bg-input-bg"
                 >
                   <span className="flex min-w-0 flex-col">
                     <span className="truncate font-medium text-text">

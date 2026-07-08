@@ -4,27 +4,17 @@ import type { ClientTotals } from "@/lib/types";
 
 export function SummaryCards({
   totals,
-  invoiceCount,
   totalSpend,
   displayCurrency,
 }: {
   totals: ClientTotals;
-  invoiceCount: number;
   totalSpend: number;
   displayCurrency: string;
 }) {
   const profitLoss = totals.total - totalSpend;
 
   return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-      <StatTile
-        label="Total Invoiced"
-        value={formatCurrency(totals.total, displayCurrency)}
-        sublabel={`${invoiceCount} invoices`}
-        animateValue
-        rawValue={totals.total}
-        displayCurrency={displayCurrency}
-      />
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
       <StatTile
         label="Paid"
         value={formatCurrency(totals.paid, displayCurrency)}

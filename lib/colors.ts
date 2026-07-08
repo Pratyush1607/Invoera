@@ -5,26 +5,26 @@ import type { InvoiceStatus } from "./types";
 // stroke/fill attributes, so components needing raw hex (gauges, donuts,
 // bar charts) read DARK/LIGHT directly based on the active theme.
 export const DARK = {
-  bg: "#0B0B0C",
-  card: "#17181A",
-  text: "#F2F2F0",
-  muted: "#8B8E92",
-  border: "#232427",
-  inputBg: "#1E1F21",
-  accent: "#2FD9A6",
-  accentText: "#0B0B0C",
-  danger: "#E5636B",
+  bg: "#0A0A0E",
+  card: "#141319",
+  text: "#F5F4F7",
+  muted: "#8D8B96",
+  border: "#232230",
+  inputBg: "#1A1922",
+  accent: "#8B7CF6",
+  accentText: "#FFFFFF",
+  danger: "#F0636B",
   warning: "#E3A947",
 };
 
 export const LIGHT = {
-  bg: "#F7F7F5",
+  bg: "#F7F6FB",
   card: "#FFFFFF",
-  text: "#141414",
-  muted: "#75787C",
-  border: "#E7E7E3",
-  inputBg: "#F1F1EE",
-  accent: "#0EA37A",
+  text: "#17161D",
+  muted: "#75737F",
+  border: "#E7E4F0",
+  inputBg: "#F1EFF8",
+  accent: "#6D5DF0",
   accentText: "#FFFFFF",
   danger: "#D6444C",
   warning: "#E3A947",
@@ -43,13 +43,13 @@ export const STATUS_LABEL: Record<InvoiceStatus, string> = {
 };
 
 export const CATEGORY_RAMP: string[] = [
-  "#0F5B4C",
-  "#177862",
-  "#1F9678",
-  "#2FD9A6",
-  "#5FE4BE",
-  "#8FEED4",
-  "#C0F6E7",
+  "#4F3FBF",
+  "#6D5DF0",
+  "#8B7CF6",
+  "#A98CF7",
+  "#C6ACF9",
+  "#DFC9FB",
+  "#EFE3FD",
 ];
 
 // Retained for any lingering call sites during the redesign migration.

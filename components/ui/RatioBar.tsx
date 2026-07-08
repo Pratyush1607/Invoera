@@ -9,7 +9,7 @@ export function RatioBar({ segments }: { segments: Segment[] }) {
 
   return (
     <div>
-      <div className="flex h-3 w-full overflow-hidden rounded-full bg-surface-inset">
+      <div className="flex h-3 w-full overflow-hidden rounded-full bg-input-bg">
         {segments.map((seg, i) => {
           const pct = (seg.value / total) * 100;
           return (

@@ -31,7 +31,7 @@ export function UploadDropzone({ onFileSelected }: { onFileSelected: (file: File
         "flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-16 text-center transition-colors",
         isDragging
           ? "border-accent bg-accent/10"
-          : "border-border bg-surface hover:border-accent/50 hover:bg-accent/5"
+          : "border-border bg-card hover:border-accent/50 hover:bg-accent/5"
       )}
     >
       <span className="flex h-14 w-14 items-center justify-center rounded-full bg-accent/10 text-accent">

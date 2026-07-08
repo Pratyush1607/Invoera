@@ -2,7 +2,9 @@
 
 import { type PointerEvent, useState } from "react";
 import { Card } from "@/components/ui/Card";
-import { STATUS_HEX, CATEGORY_RAMP } from "@/lib/colors";
+import { LineChart, type LineChartPoint } from "@/components/dashboard/LineChart";
+import { CATEGORY_RAMP } from "@/lib/colors";
+import { lineDiverging, lineFromPct } from "@/lib/chart-math";
 import { cn, formatCurrency } from "@/lib/utils";
 import type { ExpenseCategory } from "@/lib/types";
 
@@ -31,45 +33,6 @@ interface ChartCarouselProps {
   displayCurrency: string;
 }
 
-interface Bar {
-  label: string;
-  heightPct: number;
-  color: string;
-  ariaLabel: string;
-  tooltip: string;
-}
-
-function VerticalBars({ bars, slideKey, active }: { bars: Bar[]; slideKey: string; active: boolean }) {
-  return (
-    <div className="flex h-44 items-end gap-3 border-t border-border pt-3">
-      {bars.map((bar, i) => (
-        <div key={`${slideKey}-${bar.label}-${i}`} className="group flex h-full flex-1 flex-col items-center justify-end gap-2">
-          <div className="relative w-full max-w-[34px] flex-1 flex items-end justify-center">
-            <div className="pointer-events-none absolute -top-7 z-10 whitespace-nowrap rounded-md bg-text px-2 py-1 text-[11px] font-semibold text-bg opacity-0 transition-opacity group-hover:opacity-100">
-              {bar.tooltip}
-            </div>
-            <div
-              role="img"
-              aria-label={bar.ariaLabel}
-              title={bar.tooltip}
-              style={
-                {
-                  "--fh": `${bar.heightPct}%`,
-                  height: `${bar.heightPct}%`,
-                  backgroundColor: bar.color,
-                  animationDelay: active ? `${0.4 + i * 0.06}s` : undefined,
-                } as React.CSSProperties
-              }
-              className={cn("w-full max-w-[34px] rounded-md", active && "animate-grow-h")}
-            />
-          </div>
-          <span className="text-xs text-muted">{bar.label}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function CategoryBars({
   entries,
   displayCurrency,
@@ -91,7 +54,7 @@ function CategoryBars({
         return (
           <div key={`${slideKey}-${entry.category}`} className="flex items-center gap-3">
             <span className="w-20 shrink-0 truncate text-xs text-muted">{entry.category}</span>
-            <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-surface-inset">
+            <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-input-bg">
               <div
                 role="img"
                 aria-label={`${entry.category}: ${displayValue}`}
@@ -137,6 +100,27 @@ export function ChartCarousel({
   const maxRevenue = Math.max(...revenue.map((b) => b.amount), 1);
   const maxSpend = Math.max(...spend.map((b) => b.amount), 1);
 
+  const plLine = lineDiverging(profitLoss.map((b) => b.profit / maxPL));
+  const plPoints: LineChartPoint[] = plLine.pts.map((p, i) => ({
+    ...p,
+    label: profitLoss[i].label,
+    valueLabel: `${profitLoss[i].profit >= 0 ? "+" : ""}${formatCurrency(profitLoss[i].profit, displayCurrency)}`,
+  }));
+
+  const revenueLine = lineFromPct(revenue.map((b) => Math.max(6, Math.round((b.amount / maxRevenue) * 100))));
+  const revenuePoints: LineChartPoint[] = revenueLine.pts.map((p, i) => ({
+    ...p,
+    label: revenue[i].label,
+    valueLabel: formatCurrency(revenue[i].amount, displayCurrency),
+  }));
+
+  const spendLine = lineFromPct(spend.map((b) => Math.max(6, Math.round((b.amount / maxSpend) * 100))));
+  const spendPoints: LineChartPoint[] = spendLine.pts.map((p, i) => ({
+    ...p,
+    label: spend[i].label,
+    valueLabel: formatCurrency(spend[i].amount, displayCurrency),
+  }));
+
   const slides = [
     {
       key: "pl",
@@ -146,16 +130,15 @@ export function ChartCarousel({
           ? `Net ${formatCurrency(netProfitLoss, displayCurrency)} over ${profitLoss.length} months`
           : "No invoice or expense history yet",
       render: (active: boolean) => (
-        <VerticalBars
-          slideKey="pl"
+        <LineChart
+          className="flex h-44 flex-col border-t border-border pt-3"
+          points={plPoints}
+          smoothPath={plLine.smoothPath}
+          areaPath={plLine.areaPath}
+          color="var(--accent)"
+          showZeroLine
+          showAxisLabels
           active={active}
-          bars={profitLoss.map((b) => ({
-            label: b.label,
-            heightPct: Math.max(10, Math.round((Math.abs(b.profit) / maxPL) * 100)),
-            color: b.profit >= 0 ? STATUS_HEX.paid : STATUS_HEX.overdue,
-            ariaLabel: `${b.label}: ${b.profit >= 0 ? "profit of" : "loss of"} ${formatCurrency(Math.abs(b.profit), displayCurrency)}`,
-            tooltip: `${b.profit >= 0 ? "+" : "-"}${formatCurrency(Math.abs(b.profit), displayCurrency)}`,
-          }))}
         />
       ),
     },
@@ -167,16 +150,14 @@ export function ChartCarousel({
           ? `${formatCurrency(totalRevenue, displayCurrency)} invoiced total`
           : "No invoices yet",
       render: (active: boolean) => (
-        <VerticalBars
-          slideKey="revenue"
+        <LineChart
+          className="flex h-44 flex-col border-t border-border pt-3"
+          points={revenuePoints}
+          smoothPath={revenueLine.smoothPath}
+          areaPath={revenueLine.areaPath}
+          color="var(--accent)"
+          showAxisLabels
           active={active}
-          bars={revenue.map((b) => ({
-            label: b.label,
-            heightPct: Math.max(10, Math.round((b.amount / maxRevenue) * 100)),
-            color: STATUS_HEX.paid,
-            ariaLabel: `${b.label}: ${formatCurrency(b.amount, displayCurrency)} invoiced`,
-            tooltip: formatCurrency(b.amount, displayCurrency),
-          }))}
         />
       ),
     },
@@ -186,16 +167,14 @@ export function ChartCarousel({
       subtitle:
         spend.length > 0 ? `${formatCurrency(totalSpend, displayCurrency)} spent total` : "No expenses yet",
       render: (active: boolean) => (
-        <VerticalBars
-          slideKey="spend"
+        <LineChart
+          className="flex h-44 flex-col border-t border-border pt-3"
+          points={spendPoints}
+          smoothPath={spendLine.smoothPath}
+          areaPath={spendLine.areaPath}
+          color="var(--warning)"
+          showAxisLabels
           active={active}
-          bars={spend.map((b) => ({
-            label: b.label,
-            heightPct: Math.max(10, Math.round((b.amount / maxSpend) * 100)),
-            color: STATUS_HEX.pending,
-            ariaLabel: `${b.label}: ${formatCurrency(b.amount, displayCurrency)} spent`,
-            tooltip: formatCurrency(b.amount, displayCurrency),
-          }))}
         />
       ),
     },
@@ -283,7 +262,7 @@ export function ChartCarousel({
           type="button"
           onClick={() => goTo(index - 1)}
           aria-label="Previous chart"
-          className="flex h-7.5 w-7.5 items-center justify-center rounded-full border border-border bg-surface-inset text-text"
+          className="flex h-7.5 w-7.5 items-center justify-center rounded-full border border-border bg-input-bg text-text"
         >
           ‹
         </button>
@@ -304,7 +283,7 @@ export function ChartCarousel({
           type="button"
           onClick={() => goTo(index + 1)}
           aria-label="Next chart"
-          className="flex h-7.5 w-7.5 items-center justify-center rounded-full border border-border bg-surface-inset text-text"
+          className="flex h-7.5 w-7.5 items-center justify-center rounded-full border border-border bg-input-bg text-text"
         >
           ›
         </button>

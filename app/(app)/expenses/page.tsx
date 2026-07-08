@@ -1,8 +1,7 @@
 import { ExpensesView } from "@/components/expenses/ExpensesView";
 import { CategoryDonutChart } from "@/components/expenses/CategoryDonutChart";
-import { SpendChart } from "@/components/expenses/SpendChart";
 import { PageBackground } from "@/components/layout/PageBackground";
-import { getCategoryBreakdown, getMonthlySpend, getAnnualSpend } from "@/lib/calculations";
+import { getCategoryBreakdown } from "@/lib/calculations";
 import { getExpenses } from "@/lib/data/expenses";
 import { getDisplayContext } from "@/lib/currency";
 
@@ -10,20 +9,11 @@ export default async function ExpensesPage() {
   const [expenses, { displayCurrency }] = await Promise.all([getExpenses(), getDisplayContext()]);
 
   const categoryData = getCategoryBreakdown(expenses);
-  const monthlyData = getMonthlySpend(expenses);
-  const annualData = getAnnualSpend(expenses);
 
   return (
     <PageBackground>
       <div className="flex flex-col gap-6">
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-          <SpendChart
-            monthlyData={monthlyData}
-            annualData={annualData}
-            displayCurrency={displayCurrency}
-          />
-          <CategoryDonutChart data={categoryData} displayCurrency={displayCurrency} />
-        </div>
+        <CategoryDonutChart data={categoryData} displayCurrency={displayCurrency} />
 
         <ExpensesView expenses={expenses} />
       </div>

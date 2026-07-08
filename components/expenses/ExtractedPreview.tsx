@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { formatCurrency } from "@/lib/utils";
 import { SUPPORTED_CURRENCIES } from "@/lib/constants";
+import { inputClassNameSm as inputClassName } from "@/lib/ui-classes";
 import type { ExpenseCategory } from "@/lib/types";
 
 const CATEGORIES: ExpenseCategory[] = [
@@ -31,9 +32,6 @@ export interface SaveResult {
   success: boolean;
   error?: string;
 }
-
-const inputClassName =
-  "rounded-[var(--radius-input)] border border-border bg-surface px-3 py-2 text-sm text-text outline-none focus:border-accent focus:ring-2 focus:ring-accent/20";
 
 export function ExtractedPreview({
   data,

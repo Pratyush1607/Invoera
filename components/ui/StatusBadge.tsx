@@ -15,7 +15,7 @@ export function StatusBadge({ status }: { status: string }) {
     <span
       className={cn(
         "inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold capitalize",
-        STATUS_STYLES[status] ?? "bg-surface-inset text-muted",
+        STATUS_STYLES[status] ?? "bg-input-bg text-muted",
         pulse
       )}
     >

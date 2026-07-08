@@ -15,11 +15,9 @@ import {
 } from "@/app/(app)/clients/actions";
 import type { ValidatedInvoiceFields } from "@/lib/gemini/pipeline";
 import { SUPPORTED_CURRENCIES } from "@/lib/constants";
+import { inputClassName } from "@/lib/ui-classes";
 
 const initialState: InvoiceFormState = {};
-
-const inputClassName =
-  "rounded-[var(--radius-input)] border border-border bg-surface px-4 py-2.5 text-sm text-text outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
 
 const STEPS: Step[] = [
   { label: "Extracting data", description: "Reading fields from the invoice document" },

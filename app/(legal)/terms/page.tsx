@@ -5,19 +5,19 @@ export const metadata: Metadata = {
   title: "Terms of Use — Invoera",
 };
 
-const h2 = "mt-8 text-lg font-bold text-gray-900 dark:text-gray-100";
-const p = "mt-3 text-sm leading-relaxed text-gray-600 dark:text-gray-300";
-const ul = "mt-3 flex flex-col gap-2 text-sm leading-relaxed text-gray-600 dark:text-gray-300";
-const li = "flex gap-2 before:mt-2 before:h-1 before:w-1 before:shrink-0 before:rounded-full before:bg-teal-500";
+const h2 = "mt-8 text-lg font-bold text-text";
+const p = "mt-3 text-sm leading-relaxed text-muted";
+const ul = "mt-3 flex flex-col gap-2 text-sm leading-relaxed text-muted";
+const li = "flex gap-2 before:mt-2 before:h-1 before:w-1 before:shrink-0 before:rounded-full before:bg-accent";
 
 export default function TermsOfUsePage() {
   return (
     <article>
-      <p className="text-xs font-semibold uppercase tracking-wide text-teal-600 dark:text-teal-400">
+      <p className="text-xs font-semibold uppercase tracking-wide text-accent">
         Legal
       </p>
-      <h1 className="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">Terms of Use</h1>
-      <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">Last updated: July 6, 2026</p>
+      <h1 className="mt-2 text-2xl font-bold text-text">Terms of Use</h1>
+      <p className="mt-1 text-sm text-muted">Last updated: July 6, 2026</p>
 
       <p className={p}>
         These terms govern your use of Invoera. By creating an account, you agree to them. If
@@ -75,7 +75,7 @@ export default function TermsOfUsePage() {
         You retain ownership of the invoices, expenses, and documents you upload. You&apos;re
         granting us only the access needed to store it and run it through the AI pipeline you
         requested. See our{" "}
-        <Link href="/privacy" className="text-teal-600 hover:underline dark:text-teal-400">
+        <Link href="/privacy" className="text-accent hover:underline">
           Privacy Policy
         </Link>{" "}
         for details.
@@ -104,7 +104,7 @@ export default function TermsOfUsePage() {
       <h2 className={h2}>10. Contact</h2>
       <p className={p}>
         Questions about these terms? Email{" "}
-        <a href="mailto:support@invoera.app" className="text-teal-600 hover:underline dark:text-teal-400">
+        <a href="mailto:support@invoera.app" className="text-accent hover:underline">
           support@invoera.app
         </a>
         .

@@ -24,7 +24,7 @@ export function ClientFilterPills({
             "rounded-full px-4 py-2 text-sm font-semibold transition-colors",
             active === filter
               ? "bg-accent text-accent-text"
-              : "bg-surface text-muted ring-1 ring-border hover:bg-surface-inset"
+              : "bg-card text-muted ring-1 ring-border hover:bg-input-bg"
           )}
         >
           {filter}

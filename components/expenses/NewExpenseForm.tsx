@@ -17,6 +17,7 @@ import {
   type ExpenseFormState,
 } from "@/app/(app)/expenses/actions";
 import { SUPPORTED_CURRENCIES } from "@/lib/constants";
+import { inputClassName } from "@/lib/ui-classes";
 import type { ExpenseCategory } from "@/lib/types";
 
 const CATEGORIES: ExpenseCategory[] = [
@@ -31,9 +32,6 @@ const CATEGORIES: ExpenseCategory[] = [
 ];
 
 const initialState: ExpenseFormState = {};
-
-const inputClassName =
-  "rounded-[var(--radius-input)] border border-border bg-surface px-4 py-2.5 text-sm text-text outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
 
 const STEPS: Step[] = [
   { label: "Extracting data", description: "Reading text and line items from the file" },

@@ -110,7 +110,7 @@ export default async function SettingsPage() {
             {categories.map((entry) => (
               <span
                 key={entry.category}
-                className="rounded-full bg-surface-inset px-3 py-1.5 text-sm font-medium text-muted ring-1 ring-border"
+                className="rounded-full bg-input-bg px-3 py-1.5 text-sm font-medium text-muted ring-1 ring-border"
               >
                 {entry.category}
               </span>

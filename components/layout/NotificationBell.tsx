@@ -56,7 +56,7 @@ export function NotificationBell({
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Notifications"
-        className="relative flex h-10 w-10 items-center justify-center rounded-full text-muted hover:bg-surface-inset hover:text-text"
+        className="relative flex h-10 w-10 items-center justify-center rounded-full text-muted hover:bg-input-bg hover:text-text"
       >
         <Bell className="h-5 w-5" />
         {unreadCount > 0 && (
@@ -69,7 +69,7 @@ export function NotificationBell({
       {open && (
         <div
           role="menu"
-          className="animate-drop-in absolute right-0 z-20 mt-2 w-80 overflow-hidden rounded-2xl bg-surface shadow-lg ring-1 ring-border"
+          className="animate-drop-in absolute right-0 z-20 mt-2 w-80 overflow-hidden rounded-2xl bg-card shadow-lg ring-1 ring-border"
         >
           <div className="flex items-center justify-between gap-2 border-b border-border px-4 py-3">
             <p className="text-sm font-semibold text-text">Notifications</p>
@@ -96,7 +96,7 @@ export function NotificationBell({
                 type="button"
                 role="menuitem"
                 onClick={() => handleNotificationClick(notification)}
-                className="flex w-full flex-col gap-0.5 border-b border-border px-4 py-3 text-left last:border-0 hover:bg-surface-inset"
+                className="flex w-full flex-col gap-0.5 border-b border-border px-4 py-3 text-left last:border-0 hover:bg-input-bg"
               >
                 <div className="flex items-center gap-2">
                   {!notification.readAt && (

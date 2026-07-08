@@ -5,19 +5,19 @@ export const metadata: Metadata = {
   title: "Privacy Policy — Invoera",
 };
 
-const h2 = "mt-8 text-lg font-bold text-gray-900 dark:text-gray-100";
-const p = "mt-3 text-sm leading-relaxed text-gray-600 dark:text-gray-300";
-const ul = "mt-3 flex flex-col gap-2 text-sm leading-relaxed text-gray-600 dark:text-gray-300";
-const li = "flex gap-2 before:mt-2 before:h-1 before:w-1 before:shrink-0 before:rounded-full before:bg-teal-500";
+const h2 = "mt-8 text-lg font-bold text-text";
+const p = "mt-3 text-sm leading-relaxed text-muted";
+const ul = "mt-3 flex flex-col gap-2 text-sm leading-relaxed text-muted";
+const li = "flex gap-2 before:mt-2 before:h-1 before:w-1 before:shrink-0 before:rounded-full before:bg-accent";
 
 export default function PrivacyPolicyPage() {
   return (
     <article>
-      <p className="text-xs font-semibold uppercase tracking-wide text-teal-600 dark:text-teal-400">
+      <p className="text-xs font-semibold uppercase tracking-wide text-accent">
         Legal
       </p>
-      <h1 className="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">Privacy Policy</h1>
-      <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">Last updated: July 6, 2026</p>
+      <h1 className="mt-2 text-2xl font-bold text-text">Privacy Policy</h1>
+      <p className="mt-1 text-sm text-muted">Last updated: July 6, 2026</p>
 
       <p className={p}>
         This policy explains what information Invoera ("we", "us") collects when you use the
@@ -30,33 +30,33 @@ export default function PrivacyPolicyPage() {
       <ul className={ul}>
         <li className={li}>
           <span>
-            <strong className="text-gray-900 dark:text-gray-100">Account information</strong> —
+            <strong className="text-text">Account information</strong> —
             your email address, display name, and password, managed through our authentication
             provider (Supabase Auth).
           </span>
         </li>
         <li className={li}>
           <span>
-            <strong className="text-gray-900 dark:text-gray-100">Financial records you create</strong>{" "}
+            <strong className="text-text">Financial records you create</strong>{" "}
             — invoices, clients, expenses, amounts, currencies, dates, and categories you enter or
             upload.
           </span>
         </li>
         <li className={li}>
           <span>
-            <strong className="text-gray-900 dark:text-gray-100">Uploaded documents</strong> —
+            <strong className="text-text">Uploaded documents</strong> —
             receipt and invoice images or PDFs you upload for AI extraction.
           </span>
         </li>
         <li className={li}>
           <span>
-            <strong className="text-gray-900 dark:text-gray-100">Preferences</strong> — your
+            <strong className="text-text">Preferences</strong> — your
             display currency and notification settings.
           </span>
         </li>
         <li className={li}>
           <span>
-            <strong className="text-gray-900 dark:text-gray-100">Technical data</strong> — IP
+            <strong className="text-text">Technical data</strong> — IP
             address, used only to apply rate limits that keep the service reliable and secure.
           </span>
         </li>
@@ -88,15 +88,15 @@ export default function PrivacyPolicyPage() {
       </p>
       <ul className={ul}>
         <li className={li}>
-          <strong className="text-gray-900 dark:text-gray-100">Supabase</strong> — database,
+          <strong className="text-text">Supabase</strong> — database,
           authentication, and file storage.
         </li>
         <li className={li}>
-          <strong className="text-gray-900 dark:text-gray-100">Google (Gemini API)</strong> —
+          <strong className="text-text">Google (Gemini API)</strong> —
           processes the content of uploaded receipts/invoices to extract structured data.
         </li>
         <li className={li}>
-          <strong className="text-gray-900 dark:text-gray-100">Resend</strong> — delivers the
+          <strong className="text-text">Resend</strong> — delivers the
           transactional emails described above.
         </li>
       </ul>
@@ -134,15 +134,15 @@ export default function PrivacyPolicyPage() {
       <h2 className={h2}>9. Contact</h2>
       <p className={p}>
         Questions about this policy or your data? Email{" "}
-        <a href="mailto:support@invoera.app" className="text-teal-600 hover:underline dark:text-teal-400">
+        <a href="mailto:support@invoera.app" className="text-accent hover:underline">
           support@invoera.app
         </a>
         .
       </p>
 
-      <p className="mt-10 text-sm text-gray-400 dark:text-gray-500">
+      <p className="mt-10 text-sm text-muted">
         See also our{" "}
-        <Link href="/terms" className="text-teal-600 hover:underline dark:text-teal-400">
+        <Link href="/terms" className="text-accent hover:underline">
           Terms of Use
         </Link>
         .

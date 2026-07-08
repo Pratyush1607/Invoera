@@ -5,11 +5,9 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { createClientAction, type ClientFormState } from "../actions";
+import { inputClassName } from "@/lib/ui-classes";
 
 const initialState: ClientFormState = {};
-
-const inputClassName =
-  "rounded-[var(--radius-input)] border border-border bg-surface px-4 py-2.5 text-sm text-text outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
 
 export default function NewClientPage() {
   const [state, formAction, pending] = useActionState(createClientAction, initialState);

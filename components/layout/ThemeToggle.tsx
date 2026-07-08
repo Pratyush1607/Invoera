@@ -18,7 +18,7 @@ export function ThemeToggle({ size = "sm" }: { size?: "sm" | "lg" }) {
       onClick={toggleTheme}
       aria-label="Toggle dark mode"
       className={cn(
-        "flex items-center rounded-full border border-border bg-surface-inset p-0.5",
+        "flex items-center rounded-full border border-border bg-input-bg p-0.5",
         s.track
       )}
     >

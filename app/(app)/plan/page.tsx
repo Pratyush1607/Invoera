@@ -17,8 +17,8 @@ export default function PlanPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Plan &amp; Billing</h1>
-        <p className="text-sm text-gray-400 dark:text-gray-500">
+        <h1 className="text-2xl font-bold text-text">Plan &amp; Billing</h1>
+        <p className="text-sm text-muted">
           Invoera is free for everyone right now — paid plans aren&apos;t open yet.
         </p>
       </div>
@@ -26,21 +26,18 @@ export default function PlanPage() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <Card className="p-6">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-gray-900 dark:text-gray-100">Free</h3>
-            <span className="rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700 dark:bg-teal-500/15 dark:text-teal-400">
+            <h3 className="font-bold text-text">Free</h3>
+            <span className="rounded-full bg-accent-soft px-3 py-1 text-xs font-semibold text-accent">
               Current plan
             </span>
           </div>
-          <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">
-            $0<span className="text-sm font-medium text-gray-400 dark:text-gray-500"> / month</span>
+          <p className="mt-1 text-2xl font-bold text-text">
+            $0<span className="text-sm font-medium text-muted"> / month</span>
           </p>
           <ul className="mt-4 flex flex-col gap-2.5">
             {FREE_FEATURES.map((feature) => (
-              <li
-                key={feature}
-                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300"
-              >
-                <Check className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+              <li key={feature} className="flex items-center gap-2 text-sm text-muted">
+                <Check className="h-4 w-4 text-accent" />
                 {feature}
               </li>
             ))}
@@ -49,21 +46,18 @@ export default function PlanPage() {
 
         <Card className="p-6">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-gray-900 dark:text-gray-100">Pro</h3>
-            <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-500/15 dark:text-amber-400">
+            <h3 className="font-bold text-text">Pro</h3>
+            <span className="rounded-full bg-warning/15 px-3 py-1 text-xs font-semibold text-warning">
               Coming soon
             </span>
           </div>
-          <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">
-            TBD<span className="text-sm font-medium text-gray-400 dark:text-gray-500"> / month</span>
+          <p className="mt-1 text-2xl font-bold text-text">
+            TBD<span className="text-sm font-medium text-muted"> / month</span>
           </p>
           <ul className="mt-4 flex flex-col gap-2.5">
             {PRO_FEATURES.map((feature) => (
-              <li
-                key={feature}
-                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300"
-              >
-                <Check className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+              <li key={feature} className="flex items-center gap-2 text-sm text-muted">
+                <Check className="h-4 w-4 text-accent" />
                 {feature}
               </li>
             ))}

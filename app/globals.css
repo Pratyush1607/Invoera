@@ -10,47 +10,49 @@
  * which some components need as raw hex for inline SVG stroke/fill.
  */
 :root {
-  --bg: #f7f7f5;
-  --surface: #ffffff;
-  --surface-inset: #f1f1ee;
-  --border: #e7e7e3;
-  --text: #141414;
-  --muted: #75787c;
-  --accent: #0ea37a;
+  --bg: #f7f6fb;
+  --card: #ffffff;
+  --text: #17161d;
+  --muted: #75737f;
+  --border: #e7e4f0;
+  --input-bg: #f1eff8;
+  --accent: #6d5df0;
   --accent-text: #ffffff;
   --danger: #d6444c;
   --warning: #e3a947;
-  --panel-bg: #0ea37a;
-  --panel-text: #ffffff;
-  --panel-muted: rgba(255, 255, 255, 0.8);
-  --panel-chip: rgba(255, 255, 255, 0.18);
+  --accent-gradient: linear-gradient(135deg, #6d5df0 0%, #9b4fe0 100%);
+  --accent-soft: rgba(109, 93, 240, 0.12);
+  --nav-bar-bg: rgba(247, 246, 251, 0.75);
+  --hero-glow: radial-gradient(ellipse 65% 55% at 50% 0%, rgba(109, 93, 240, 0.26), transparent 70%);
+  --section-glow: radial-gradient(ellipse 50% 100% at 50% 0%, rgba(109, 93, 240, 0.18), transparent 75%);
 }
 
 .dark {
-  --bg: #0b0b0c;
-  --surface: #17181a;
-  --surface-inset: #1e1f21;
-  --border: #232427;
-  --text: #f2f2f0;
-  --muted: #8b8e92;
-  --accent: #2fd9a6;
-  --accent-text: #0b0b0c;
-  --danger: #e5636b;
+  --bg: #0a0a0e;
+  --card: #141319;
+  --text: #f5f4f7;
+  --muted: #8d8b96;
+  --border: #232230;
+  --input-bg: #1a1922;
+  --accent: #8b7cf6;
+  --accent-text: #ffffff;
+  --danger: #f0636b;
   --warning: #e3a947;
-  --panel-bg: #122e28;
-  --panel-text: #f2fbf8;
-  --panel-muted: rgba(242, 251, 248, 0.68);
-  --panel-chip: rgba(255, 255, 255, 0.1);
+  --accent-gradient: linear-gradient(135deg, #7c6ff5 0%, #b565e8 100%);
+  --accent-soft: rgba(139, 124, 246, 0.16);
+  --nav-bar-bg: rgba(10, 10, 14, 0.75);
+  --hero-glow: radial-gradient(ellipse 65% 55% at 50% 0%, rgba(139, 124, 246, 0.38), transparent 70%);
+  --section-glow: radial-gradient(ellipse 50% 100% at 50% 0%, rgba(139, 124, 246, 0.3), transparent 75%);
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-plus-jakarta);
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-quicksand);
+  --font-display: var(--font-plus-jakarta);
 
   --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-surface-inset: var(--surface-inset);
+  --color-card: var(--card);
+  --color-input-bg: var(--input-bg);
   --color-border: var(--border);
   --color-text: var(--text);
   --color-muted: var(--muted);
@@ -58,8 +60,7 @@
   --color-accent-text: var(--accent-text);
   --color-danger: var(--danger);
   --color-warning: var(--warning);
-  --color-panel-bg: var(--panel-bg);
-  --color-panel-text: var(--panel-text);
+  --color-accent-soft: var(--accent-soft);
 
   --radius-card: 16px;
   --radius-input: 11px;
@@ -67,6 +68,26 @@
 
 body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+.bg-accent-gradient {
+  background: var(--accent-gradient);
+}
+
+.bg-hero-glow {
+  background: var(--hero-glow);
+}
+
+.bg-section-glow {
+  background: var(--section-glow);
+}
+
+.bg-nav-bar {
+  background: var(--nav-bar-bg);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 @keyframes iv-pulse-once {
